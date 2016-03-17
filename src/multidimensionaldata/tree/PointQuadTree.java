@@ -41,9 +41,9 @@ public class PointQuadTree extends Tree{
         return this.root == null;
     }
     
-    private int positionChild(Node current, Node node){
-        Point point1 = current.getPoint();
-        Point point2 = node.getPoint();
+    private int positionChild(Point point1, Point point2){
+//        Point point1 = current.getPoint();
+//        Point point2 = node.getPoint();
         
         Vector<Integer> v1 = point1.getLocation();
         Vector<Integer> v2 = point2.getLocation();
@@ -73,15 +73,15 @@ public class PointQuadTree extends Tree{
                             checkLabel(current.getNodeSW(), node);
     }
 
-    private boolean checkPoint(PointQuadNode current, Node node) {
+    private boolean checkPoint(PointQuadNode current, Point point) {
         if(current == null) return false;
-        if(current.equals(node)) return true;
-        int priority = positionChild(current, node);
+        if(current.getPoint().equalPoint(point)) return true;
+        int priority = positionChild(current.getPoint(), point);
         
-        if(priority == 1) return checkPoint(current.getNodeNW(), node);
-        if(priority == 2) return checkPoint(current.getNodeNE(), node);
-        if(priority == 3) return checkPoint(current.getNodeSE(), node);
-        return checkPoint(current.getNodeSW(), node);
+        if(priority == 1) return checkPoint(current.getNodeNW(), point);
+        if(priority == 2) return checkPoint(current.getNodeNE(), point);
+        if(priority == 3) return checkPoint(current.getNodeSE(), point);
+        return checkPoint(current.getNodeSW(), point);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PointQuadTree extends Tree{
     private void addNode(PointQuadNode current
             , PointQuadNode pointQuadNode, boolean isPaint){
         if(current == null) return;
-        int priority = positionChild(current, pointQuadNode);
+        int priority = positionChild(current.getPoint(), pointQuadNode.getPoint());
         boolean ok;
         if(priority == 1){
             ok = true;
@@ -257,6 +257,7 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void deleteNodeLabel(String label, boolean paint) {
+        
     }
 
     @Override
@@ -274,7 +275,12 @@ public class PointQuadTree extends Tree{
     
     private PointQuadNode searchLabel(PointQuadNode current, String stringLabel, boolean isPaint){
         if(current == null) return null;
-        if(current.getLabel().equals(stringLabel)) return current;
+        if(current.getLabel().equals(stringLabel)){
+            if(isPaint){
+                ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+            }
+            return current;
+        }
         
         if(isPaint && current.getNodeNW() != null){
             runAnimationSearch(current.getxPos(), current.getyPos()
@@ -326,6 +332,55 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void searchPointAndPaint(Point point, boolean paint) {
+        try{
+            searchPoint(root, point, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
+    }
+    
+    private PointQuadNode searchPoint(PointQuadNode current, Point point, boolean isPaint){
+        if(current == null) return null;
+        if(current.getPoint().equalPoint(point)){
+            if(isPaint){
+                ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+            }
+            return current;
+        }
+        
+        int priority = positionChild(current.getPoint(), point);
+        
+        if(priority == 1){
+            if(isPaint && current.getNodeNW() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
+                        , isPaint, "");
+            }
+            return searchPoint(current.getNodeNW(), point, isPaint);
+        }
+        if(priority == 2){
+            if(isPaint && current.getNodeNE() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
+                        , isPaint, "");
+            }
+            return searchPoint(current.getNodeNE(), point, isPaint);
+        }
+        if(priority == 3){
+            if(isPaint && current.getNodeSE() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
+                        , isPaint, "");
+            }
+            return searchPoint(current.getNodeSE(), point, isPaint);
+        }
+        
+        if(isPaint && current.getNodeSW() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
+                        , isPaint, "");
+            }
+        return searchPoint(current.getNodeSW(), point, isPaint);        
     }
 
     @Override
@@ -391,8 +446,8 @@ public class PointQuadTree extends Tree{
     }
 
     @Override
-    public boolean checkPoint(Point point) {
-        return false;
+    public boolean checkPoint(Point point) {        
+        return checkPoint(root, point);
     }
 
     private PointQuadNode findPointQuadNode(PointQuadNode current, MouseEvent ev){
@@ -433,6 +488,7 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void setColor(Node node) {
+        
     }
 
     private void paintNode(Graphics2D g, PointQuadNode node) {

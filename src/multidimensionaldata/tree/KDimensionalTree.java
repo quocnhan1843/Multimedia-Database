@@ -449,16 +449,24 @@ public class KDimensionalTree extends Tree{
 
     @Override
     public void searchLabelAndPaint(String label, boolean paint) {
-        KDimensionalNode node = new KDimensionalNode(label, new Point());
-        KDimensionalNode nodeSearch = searchNodeLabel(this.root, node, paint);
-        nodeSearch.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        try{
+            KDimensionalNode node = new KDimensionalNode(label, new Point());
+            KDimensionalNode nodeSearch = searchNodeLabel(this.root, node, paint);
+            nodeSearch.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
     }
 
     @Override
     public void searchPointAndPaint(Point point, boolean paint) {
-        KDimensionalNode node = new KDimensionalNode("", point);
-        KDimensionalNode nodeSearch = searchNodePoint(this.root, node, paint);
-        nodeSearch.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        try{
+            KDimensionalNode node = new KDimensionalNode("", point);
+            KDimensionalNode nodeSearch = searchNodePoint(this.root, node, paint);
+            nodeSearch.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
     }
 
     @Override

@@ -134,7 +134,7 @@ public class ProcessSearchNode {
         return vectorSearch.size() > 0;
     }
 
-    void setInfo(InfoNode infoNode) {
+    public void setInfo(InfoNode infoNode) {
         this.infoNode = infoNode;
     }
 }
