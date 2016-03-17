@@ -16,6 +16,7 @@ import java.util.Vector;
  * @author ASUS
  */
 public abstract class Node {
+    
     private Point point;
     private int xPos, yPos;
     private Color color;

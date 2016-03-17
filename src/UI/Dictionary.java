@@ -133,4 +133,14 @@ public class Dictionary{
             return value;
         }
     }
+    public enum SIZE{
+        HEIGHT(42),WIDTH(120);
+        private int value;
+        private SIZE(int vl){
+            value = vl;
+        }
+        public int getValue(){
+            return value;
+        }
+    }
 }

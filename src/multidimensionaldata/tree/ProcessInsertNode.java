@@ -87,38 +87,35 @@ public class ProcessInsertNode {
             int x = (int) xInsert;
             int y = (int) yInsert;
 
-            int dx = 120/ProcessesPaintTree.treePaint.getNumOfDimension();
-            int dy = 14;
+            int height = Dictionary.SIZE.HEIGHT.getValue();
+            int width = Dictionary.SIZE.WIDTH.getValue();
+            
+            int dx = width/ProcessesPaintTree.treePaint.getNumOfDimension();
+            int dy = height/3;
             
             Vector v = info.getPoint().getLocation();
             
             //Fill color background
             g2d.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_RUN.getColor());
 
-            g2d.fillRect(x, y, 120, dy);
-
-            for (int i = 0; i < v.size(); i++) {
-                g2d.fillRect(x + i*dx, y + dy, dx, dy);
-            }
-
-            g2d.fillRect(x, y + 2*dy, 60, dy);
-            g2d.fillRect(x + 60, y + 2*dy, 60, dy);
+            g2d.fillRect(x, y, width, height);
 
             //draw box		
             g2d.setColor(Dictionary.COLOR.BOX_NODE.getColor());
             int s = g2d.getFont().getSize();
-            g2d.drawRect(x, y, 120, dy);        
+            g2d.drawRect(x, y, width, dy);        
 
             for (int i = 0; i < v.size(); i++) {
                 g2d.drawRect(x + i*dx, y + dy, dx, dy);
             }
 
-            g2d.drawRect(x, y + 2*dy, 60, dy);
-            g2d.drawRect(x + 60, y + 2*dy, 60, dy);
+            g2d.drawRect(x, y + 2*dy, width/2, dy);
+            g2d.drawRect(x + width/2, y + 2*dy, width/2, dy);
 
             //Draw String2d
             g2d.setColor(Dictionary.COLOR.TEXT_NODE.getColor());
-            g2d.drawString(info.getLabel(), (Math.max(120 -  info.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
+            g2d.drawString(info.getLabel(), (Math.max(width -  info.getLabel()
+                    .length()*s,4))/2 + (x + 4) , y + dy - 1 );
             for (int i = 0; i < v.size(); i++) {
                 g2d.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);
             }
@@ -127,7 +124,7 @@ public class ProcessInsertNode {
             
             g2d.setFont(new Font(Dictionary.Font.DEFAULT.getString()
                     , Font.PLAIN, Dictionary.Font_Size.DEFAULT.getValue()));
-            g2d.drawString((String) vectorString.get(index), x + 130, y + 20);
+            g2d.drawString((String) vectorString.get(index), x + width + 10, y + 20);
             
         }catch(Exception ex){}
     }

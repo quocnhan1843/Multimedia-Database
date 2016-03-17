@@ -5,6 +5,10 @@
  */
 package multidimensionaldata.tree;
 
+import UI.Dictionary;
+import java.awt.Graphics2D;
+import java.util.Vector;
+
 /**
  *
  * @author ASUS
@@ -94,5 +98,53 @@ public class KDimensionalNode extends Node{
         if(current == null) return false;
         if(current.getLeftChild() == null) return false;
         return current.getLeftChild().equals(this);
+    }
+    public void paint(Graphics2D g, int num){
+        if(this == null ) return;
+        
+        int x = this.getxPos();
+        int y = this.getyPos();
+        
+        int height = Dictionary.SIZE.HEIGHT.getValue();
+        int width = Dictionary.SIZE.WIDTH.getValue();
+		
+    	int dx = width/num;
+    	int dy = height/3;
+        
+        Vector v = this.getPoint().getLocation();
+        //Fill color background
+        g.setColor(this.getColor());
+        
+        g.fillRect(x, y, width, 3*dy);
+        
+        //draw box		
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        int s = g.getFont().getSize();
+        g.drawRect(x, y, width, dy);        
+        
+        for (int i = 0; i < v.size(); i++) {
+            g.drawRect(x + i*dx, y + dy, dx, dy);
+        }
+    	
+    	g.drawRect(x, y + 2*dy, width/2, dy);
+        g.drawRect(x + width/2, y + 2*dy, width/2, dy);
+        
+        //Draw String
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        g.drawString(this.getLabel(), (Math.max(width -  this.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
+        for (int i = 0; i < v.size(); i++) {
+            g.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);
+        }
+        
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        
+        if(this.getLeftChild() != null){
+        	g.drawLine(this.getxPos() + width/4, this.getyPos() + dy*3
+                        , this.getLeftChild().getxPos() + width/2, this.getLeftChild().getyPos());
+        }
+        if(this.getRightChild() != null){
+        	g.drawLine(this.getxPos() + 3*(width/4), this.getyPos() + dy*3
+                        , this.getRightChild().getxPos() + width/2, this.getRightChild().getyPos());
+        }
     }
 }

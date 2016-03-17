@@ -407,56 +407,7 @@ public class KDimensionalTree extends Tree{
     }
 
     private void paintNode(Graphics2D g, KDimensionalNode node) {
-        if(node == null ) return;
-        
-        
-
-        int x = node.getxPos();
-        int y = node.getyPos();
-		
-    	int dx = 120/super.getNumOfDimension();
-    	int dy = 14;
-        
-        Vector v = node.getPoint().getLocation();
-        //Fill color background
-        g.setColor(node.getColor());
-        
-        g.fillRect(x, y, 120, dy);
-        
-        for (int i = 0; i < v.size(); i++) {
-            g.fillRect(x + i*dx, y + dy, dx, dy);
-        }
-    	
-    	g.fillRect(x, y + 2*dy, 60, dy);
-        g.fillRect(x + 60, y + 2*dy, 60, dy);
-        
-        //draw box		
-        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
-        int s = g.getFont().getSize();
-        g.drawRect(x, y, 120, dy);        
-        
-        for (int i = 0; i < v.size(); i++) {
-            g.drawRect(x + i*dx, y + dy, dx, dy);
-        }
-    	
-    	g.drawRect(x, y + 2*dy, 60, dy);
-        g.drawRect(x + 60, y + 2*dy, 60, dy);
-        
-        //Draw String
-        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
-        g.drawString(node.getLabel(), (Math.max(120 -  node.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
-        for (int i = 0; i < v.size(); i++) {
-            g.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);
-        }
-        
-        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
-        
-        if(node.getLeftChild() != null){
-        	g.drawLine(node.getxPos() + 30, node.getyPos() + dy*3, node.getLeftChild().getxPos() + 60, node.getLeftChild().getyPos());
-        }
-        if(node.getRightChild() != null){
-        	g.drawLine(node.getxPos() + 90, node.getyPos() + dy*3, node.getRightChild().getxPos() + 60, node.getRightChild().getyPos());
-        }
+        node.paint(g, super.getNumOfDimension());
     }
     
     private void updateNode(KDimensionalNode node, int value){

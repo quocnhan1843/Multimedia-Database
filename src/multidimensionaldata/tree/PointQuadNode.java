@@ -5,6 +5,8 @@
  */
 package multidimensionaldata.tree;
 
+import UI.Dictionary;
+import java.awt.Graphics2D;
 import java.util.Vector;
 
 /**
@@ -89,5 +91,49 @@ public class PointQuadNode extends Node{
     public boolean isLeaves() {
         return this.nodeNW == null && this.nodeNE == null 
                 && this.nodeSE == null && this.nodeSW == null;
+    }
+    public void paint(Graphics2D g){
+        if(this == null ) return;
+        
+        int x = this.getxPos();
+        int y = this.getyPos();
+        
+        int height = Dictionary.SIZE.HEIGHT.getValue();
+        int width = Dictionary.SIZE.WIDTH.getValue();
+		
+    	int dx = width/2;
+    	int dy = height/3;
+        
+        Vector v = this.getPoint().getLocation();
+        //Fill color background
+        g.setColor(this.getColor());
+        
+        g.fillRect(x, y, width, 3*dy);
+        
+        //draw box		
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        int s = g.getFont().getSize();
+        g.drawRect(x, y, width, dy);        
+        
+        for (int i = 0; i < v.size(); i++) {
+            g.drawRect(x + i*dx, y + dy, dx, dy);
+        }
+    	
+        
+        int d = width/4;
+        
+    	g.drawRect(x, y + 2*dy, d, dy);
+        g.drawRect(x + d, y + 2*dy, d, dy);
+        g.drawRect(x + 2*d, y + 2*dy, d, dy);
+        g.drawRect(x + 3*d, y + 2*dy, d, dy);
+        
+        //Draw String
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        g.drawString(this.getLabel(), (Math.max(width -  this.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
+        for (int i = 0; i < v.size(); i++) {
+            g.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);
+        }
+        
+        g.setColor(Dictionary.COLOR.DEFAULT.getColor());
     }
 }

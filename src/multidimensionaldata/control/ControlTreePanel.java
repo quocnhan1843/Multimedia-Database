@@ -963,7 +963,7 @@ public class ControlTreePanel extends JTabbedPane {
     }
     
     private String checkValidNode(String label, Point p){
-        if(tree.checkLabel(label) || checkLableInQueue(label)){
+        if(tree.checkLabel(label) || checkLabelInQueue(label)){
             return Dictionary.ERROR.ERROR_LABEL_EXISTS.getString();
         }
         if(tree.checkPoint(p) || checkPointInQueue(p) ){
@@ -987,6 +987,7 @@ public class ControlTreePanel extends JTabbedPane {
                 JOptionPane.showMessageDialog(panelDelete,"ban chua nhap ten nhan");
                 return;
             }
+            System.out.println(tree.getSize());
             if(!tree.checkLabel(label)){
                 JOptionPane.showMessageDialog(panelDelete
                         , Dictionary.ERROR.ERROR_LABEL_NOT_EXISTS.getString()
@@ -1094,7 +1095,7 @@ public class ControlTreePanel extends JTabbedPane {
         }catch(NullPointerException ex){}
     }
 
-    private boolean checkLableInQueue(String label) {
+    private boolean checkLabelInQueue(String label) {
         for(int i=0; i<tableQueue.getRowCount(); ++i){
             if(tableQueue.getValueAt(i, 0).toString().equals(label)){
                 return true;

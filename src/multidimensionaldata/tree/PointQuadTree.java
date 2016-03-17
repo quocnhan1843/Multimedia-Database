@@ -100,35 +100,73 @@ public class PointQuadTree extends Tree{
             , PointQuadNode pointQuadNode, boolean isPaint){
         if(current == null) return;
         int priority = positionChild(current, pointQuadNode);
-        
+        boolean ok;
         if(priority == 1){
+            ok = true;
             if(current.getNodeNW() == null){
                 addChildToNode(current, pointQuadNode, priority);
                 updateLocation(root);
-                return;
+            }else{
+                ok = false;
             }
-            addNode(current.getNodeNW(), pointQuadNode, isPaint);
+            
+            if(isPaint){
+                runAnimation(current.getxPos(), current.getyPos()
+                        , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
+                        , false, "chua co");
+            }
+            if(!ok){
+                 addNode(current.getNodeNW(), pointQuadNode, isPaint);
+            }
+            
         }else if(priority == 2){
+            ok = true;
             if(current.getNodeNE()== null){
                 addChildToNode(current, pointQuadNode, priority);
                 updateLocation(root);
-                return;
+            }else{
+                ok = false;
             }
-            addNode(current.getNodeNE(), pointQuadNode, isPaint);
+            if(isPaint){
+                runAnimation(current.getxPos(), current.getyPos()
+                        , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
+                        , false, "chua co");
+            }
+            if(!ok){
+                addNode(current.getNodeNE(), pointQuadNode, isPaint);
+            }
         }else if(priority == 3){
+            ok = true;
             if(current.getNodeSE()== null){
                 addChildToNode(current, pointQuadNode, priority);
                 updateLocation(root);
-                return;
+            }else{
+                ok = false;
             }
-            addNode(current.getNodeSE(), pointQuadNode, isPaint);
+            if(isPaint){
+                runAnimation(current.getxPos(), current.getyPos()
+                        , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
+                        , false, "chua co");
+            }
+            if(!ok){
+                addNode(current.getNodeSE(), pointQuadNode, isPaint);
+            }
         }else{
+            ok = true;
             if(current.getNodeSW()== null){
                 addChildToNode(current, pointQuadNode, priority);
                 updateLocation(root);
-                return;
+            }else{
+                ok = false;
             }
-            addNode(current.getNodeSW(), pointQuadNode, isPaint);
+            if(isPaint){
+                runAnimation(current.getxPos(), current.getyPos()
+                        , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
+                        , false, "chua co");
+            }
+            if(!ok){
+                addNode(current.getNodeSW(), pointQuadNode, isPaint);
+            }
         }
     }
     private int countChild(PointQuadNode node){
@@ -227,6 +265,63 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void searchLabelAndPaint(String label, boolean paint) {
+        try{
+            searchLabel(root, label, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
+    }
+    
+    private PointQuadNode searchLabel(PointQuadNode current, String stringLabel, boolean isPaint){
+        if(current == null) return null;
+        if(current.getLabel().equals(stringLabel)) return current;
+        
+        if(isPaint && current.getNodeNW() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
+                    , isPaint, "");
+        }
+        PointQuadNode nodeNW = searchLabel(current.getNodeNW(), stringLabel, isPaint);
+        if(nodeNW != null)  return nodeNW;
+        if(isPaint && current.getNodeNE() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
+                    , isPaint, "");
+        }
+        PointQuadNode nodeNE = searchLabel(current.getNodeNE(), stringLabel, isPaint);
+        if(nodeNE != null) return nodeNE;
+        if(isPaint && current.getNodeSE() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
+                    , isPaint, "");
+        }
+        PointQuadNode nodeSE = searchLabel(current.getNodeSE(), stringLabel, isPaint);
+        if(nodeSE != null) return nodeSE;
+        if(isPaint && current.getNodeSW() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
+                    , isPaint, "");
+        }
+        PointQuadNode nodeSW = searchLabel(current.getNodeSW(), stringLabel, isPaint);
+        if(nodeSW != null) return nodeSW;
+        
+        return null;
+    }
+    private void runAnimationSearch(int xs, int ys, int xf, int yf, boolean isLeave, String string){
+        int u1 = (xf - xs);
+        int u2 = (yf - ys);
+        
+        for(double t = 0.0; t <= 1.0; t+= 0.001){
+            int x = (int) (xs + t*u1);
+            int y = (int) (ys + t*u2);
+            
+            ProcessesPaintTree.addPointSearch(new Point2D(x, y));
+        }
+        
+        if(!isLeave)
+        for(int i=0; i<100; i++){
+            ProcessesPaintTree.addPointSearch(new Point2D(xf, yf));
+        }
     }
 
     @Override
@@ -253,27 +348,46 @@ public class PointQuadTree extends Tree{
 
         g.setColor(Color.black);
 
+        int height = Dictionary.SIZE.HEIGHT.getValue();
+        int width  = Dictionary.SIZE.WIDTH.getValue();
+        
+        int dx = width/8;
+        
         if(node.getNodeNW() != null){
-                g.drawLine(node.getxPos() + 15, node.getyPos() + 28, node.getNodeSW().getxPos() + 60, node.getNodeSW().getyPos());
+                g.drawLine(node.getxPos() + dx, node.getyPos() + height
+                        , node.getNodeNW().getxPos() + width/2, node.getNodeNW().getyPos());
                 paint(g, node.getNodeNW());
         }
         if(node.getNodeNE()!= null){	
-                g.drawLine(node.getxPos() + 45, node.getyPos() + 28, node.getNodeNE().getxPos() + 60, node.getNodeNE().getyPos());
+                g.drawLine(node.getxPos() + 3*dx, node.getyPos() + height
+                        , node.getNodeNE().getxPos() + width/2, node.getNodeNE().getyPos());
                 paint(g, node.getNodeNE());
         }
         if(node.getNodeSE()!= null){
-                g.drawLine(node.getxPos() + 75, node.getyPos() + 28, node.getNodeSE().getxPos() + 60, node.getNodeSE().getyPos());
+                g.drawLine(node.getxPos() + 5*dx, node.getyPos() + height
+                        , node.getNodeSE().getxPos() + width/2, node.getNodeSE().getyPos());
                 paint(g, node.getNodeSE());
         }
         if(node.getNodeSW()!= null){
-                g.drawLine(node.getxPos() + 105, node.getyPos() + 28, node.getNodeSW().getxPos() + 60, node.getNodeSW().getyPos());
+                g.drawLine(node.getxPos() + 7*dx, node.getyPos() + height
+                        , node.getNodeSW().getxPos() + width/2, node.getNodeSW().getyPos());
                 paint(g, node.getNodeSW());
         }
     }
 
     @Override
     public boolean checkLabel(String str) {
-        return false;
+        return checkLabel(this.root, str);
+    }
+    
+    private boolean checkLabel(PointQuadNode currentPointQuadNode, String stringLabel){
+        if(currentPointQuadNode == null) return false;
+        if(currentPointQuadNode.getLabel().equals(stringLabel)) return true;
+        
+        return (checkLabel(currentPointQuadNode.getNodeNW(), stringLabel)
+                || checkLabel(currentPointQuadNode.getNodeNE(), stringLabel)
+                || checkLabel(currentPointQuadNode.getNodeSE(), stringLabel)
+                || checkLabel(currentPointQuadNode.getNodeSW(), stringLabel));
     }
 
     @Override
@@ -298,14 +412,23 @@ public class PointQuadTree extends Tree{
     }
     @Override
     public Node findNode(MouseEvent e) {
-            // TODO Auto-generated method stub
-            PointQuadNode ans = findPointQuadNode(this.getRoot(), e);
-            if(ans == null) return null;
-            return ans;
+        PointQuadNode ans = findPointQuadNode(this.getRoot(), e);
+        if(ans == null) return null;
+        return ans;
     }
 
     @Override
     public void resetColor() {
+        resetColor(root);
+    }
+    private void resetColor(PointQuadNode node){
+        if(node == null) return;
+        node.setColor(Dictionary.COLOR.BACKGROUND_NODE.getColor());
+
+        resetColor(node.getNodeNW());
+        resetColor(node.getNodeNE());
+        resetColor(node.getNodeSE());
+        resetColor(node.getNodeSW());
     }
 
     @Override
@@ -313,37 +436,6 @@ public class PointQuadTree extends Tree{
     }
 
     private void paintNode(Graphics2D g, PointQuadNode node) {
-    	if(node == null){
-    		return;
-    	}
-		
-        g.setColor(Color.black);
-		
-    	int dx = 40;
-    	int dy = 14;
-    	
-    	int x = node.getxPos();
-		int y = node.getyPos();
-		
-    	g.drawString(node.getLabel(), x + 6 , y + dy - 1 );
-    	g.drawString(String.valueOf(node.getxPos()), x + dx + 6, y + dy - 1);
-    	g.drawString(String.valueOf(node.getyPos()), x + 2*dx + 6, y + dy - 1);
-	    	
-    	//========================================
-    	
-    	g.setColor(node.getColor());
-    	
-        g.drawRect(x + 4, y, dx, dy);
-        g.drawRect(x + dx + 4, y, dx - 2, dy);
-        g.drawRect(x + 2*dx + 2, y, dx - 2, dy);
-        
-        //=============================
-        
-        g.drawRect(x + 4, y + dy, 29, dy);
-        g.drawRect(x + 33,y + dy, 29, dy);
-        g.drawRect(x + 62, y + dy, 29, dy);
-        g.drawRect(x + 91,y + dy, 29, dy );
-        
-        g.setColor(Color.black);
+    	node.paint(g);
     }
 }
