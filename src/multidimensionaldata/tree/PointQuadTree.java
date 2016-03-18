@@ -11,6 +11,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.Vector;
 
 /**
@@ -257,11 +260,67 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void deleteNodeLabel(String label, boolean paint) {
-        
+        PointQuadNode pointQuadNode = searchLabel(this.root, label, paint);
+        deleteNode(pointQuadNode, paint);
     }
 
     @Override
     public void deleteNodePoint(Point point, boolean paint) {
+        PointQuadNode pointQuadNode = searchPoint(this.root, point, paint);
+        deleteNode(pointQuadNode, paint);
+    }
+    
+    private void deleteNode(PointQuadNode pointQuadNode, boolean  isPaint){
+        Queue queueList = getList(pointQuadNode);
+        deleteChild(pointQuadNode.getParent(), pointQuadNode);
+        ProcessesPaintTree.treePaint.deleteNodeLabel(pointQuadNode.getLabel(), false);
+        while(!queueList.isEmpty()){
+            InfoNode infoNode = (InfoNode) queueList.poll();
+            
+            this.insertNode(infoNode.getLabel(), infoNode.getPoint(), isPaint);
+            ProcessesPaintTree.treePaint.insertNode(infoNode.getLabel(), infoNode.getPoint(), true);
+        }
+    }
+    
+    private void deleteChild(PointQuadNode parent, PointQuadNode child){
+        try{
+            if(parent.getNodeNW() != null && parent.getNodeNW().equals(child)){
+                parent.setNodeNW(null);
+                return;
+            }
+            if(parent.getNodeNE() != null && parent.getNodeNE().equals(child)){
+                parent.setNodeNE(null);
+                return;
+            }
+            if(parent.getNodeSE() != null && parent.getNodeSE().equals(child)){
+                parent.setNodeSE(null);
+                return;
+            }
+            if(parent.getNodeSW() != null && parent.getNodeSW().equals(child)){
+                parent.setNodeSW(null);
+                return;
+            }
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
+    }
+    
+    private Queue getList(PointQuadNode current){
+        Queue queue =  new LinkedList();
+        Stack stack = new Stack();
+        if(current == null) return queue;
+        stack.add(current);
+        while(!stack.empty()){
+                PointQuadNode tmp = (PointQuadNode) stack.pop();
+                queue.add(new InfoNode(tmp.getLabel(), tmp.getPoint()));
+
+                if(tmp.getNodeNW()!= null ) stack.push(tmp.getNodeNW());
+                if(tmp.getNodeNE() != null ) stack.push(tmp.getNodeNE());
+                if(tmp.getNodeSE() != null ) stack.push(tmp.getNodeSE());
+                if(tmp.getNodeSW() != null ) stack.push(tmp.getNodeSW());
+        }
+        queue.remove();
+        return queue;
     }
 
     @Override

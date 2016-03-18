@@ -987,7 +987,6 @@ public class ControlTreePanel extends JTabbedPane {
                 JOptionPane.showMessageDialog(panelDelete,"ban chua nhap ten nhan");
                 return;
             }
-            System.out.println(tree.getSize());
             if(!tree.checkLabel(label)){
                 JOptionPane.showMessageDialog(panelDelete
                         , Dictionary.ERROR.ERROR_LABEL_NOT_EXISTS.getString()
