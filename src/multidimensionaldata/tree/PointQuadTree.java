@@ -260,26 +260,31 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void deleteNodeLabel(String label, boolean paint) {
-        PointQuadNode pointQuadNode = searchLabel(this.root, label, paint);
+        PointQuadNode pointQuadNode = searchLabel(this.root, label,true, paint);
         deleteNode(pointQuadNode, paint);
     }
 
     @Override
     public void deleteNodePoint(Point point, boolean paint) {
-        PointQuadNode pointQuadNode = searchPoint(this.root, point, paint);
+        PointQuadNode pointQuadNode = searchPoint(this.root, point,true, paint);
         deleteNode(pointQuadNode, paint);
     }
     
     private void deleteNode(PointQuadNode pointQuadNode, boolean  isPaint){
-        Queue queueList = getList(pointQuadNode);
-        deleteChild(pointQuadNode.getParent(), pointQuadNode);
-        ProcessesPaintTree.treePaint.deleteNodeLabel(pointQuadNode.getLabel(), false);
-        while(!queueList.isEmpty()){
-            InfoNode infoNode = (InfoNode) queueList.poll();
-            
-            this.insertNode(infoNode.getLabel(), infoNode.getPoint(), isPaint);
-            ProcessesPaintTree.treePaint.insertNode(infoNode.getLabel(), infoNode.getPoint(), true);
+        Queue queueList = new LinkedList();
+        if(isPaint == false){
+            queueList = getList(pointQuadNode);
         }
+        
+        if(pointQuadNode == root) setEmpty();
+        else deleteChild(pointQuadNode.getParent(), pointQuadNode);
+        
+        if(isPaint == false)
+            while(!queueList.isEmpty()){
+                InfoNode infoNode = (InfoNode) queueList.poll();
+
+                ProcessesPaintTree.addQueueInsert(infoNode);
+            }
     }
     
     private void deleteChild(PointQuadNode parent, PointQuadNode child){
@@ -326,17 +331,20 @@ public class PointQuadTree extends Tree{
     @Override
     public void searchLabelAndPaint(String label, boolean paint) {
         try{
-            searchLabel(root, label, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+            searchLabel(root, label,false, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
         }catch(NullPointerException nullPointerException){
             nullPointerException.printStackTrace();
         }
     }
     
-    private PointQuadNode searchLabel(PointQuadNode current, String stringLabel, boolean isPaint){
+    private PointQuadNode searchLabel(PointQuadNode current, String stringLabel,boolean andDelete, boolean isPaint){
         if(current == null) return null;
         if(current.getLabel().equals(stringLabel)){
             if(isPaint){
-                ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+                if(andDelete)
+                    ProcessesPaintTree.setNodeSearchAndDelete(new InfoNode(current.getLabel(), current.getPoint()));
+                else
+                    ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
             }
             return current;
         }
@@ -344,61 +352,66 @@ public class PointQuadTree extends Tree{
         if(isPaint && current.getNodeNW() != null){
             runAnimationSearch(current.getxPos(), current.getyPos()
                     , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
-                    , isPaint, "");
+                    , isPaint, "", andDelete);
         }
-        PointQuadNode nodeNW = searchLabel(current.getNodeNW(), stringLabel, isPaint);
+        PointQuadNode nodeNW = searchLabel(current.getNodeNW(), stringLabel, andDelete, isPaint);
         if(nodeNW != null)  return nodeNW;
         if(isPaint && current.getNodeNE() != null){
             runAnimationSearch(current.getxPos(), current.getyPos()
                     , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
-                    , isPaint, "");
+                    , isPaint, "", andDelete);
         }
-        PointQuadNode nodeNE = searchLabel(current.getNodeNE(), stringLabel, isPaint);
+        PointQuadNode nodeNE = searchLabel(current.getNodeNE(), stringLabel, andDelete, isPaint);
         if(nodeNE != null) return nodeNE;
         if(isPaint && current.getNodeSE() != null){
             runAnimationSearch(current.getxPos(), current.getyPos()
                     , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
-                    , isPaint, "");
+                    , isPaint, "", andDelete);
         }
-        PointQuadNode nodeSE = searchLabel(current.getNodeSE(), stringLabel, isPaint);
+        PointQuadNode nodeSE = searchLabel(current.getNodeSE(), stringLabel, andDelete, isPaint);
         if(nodeSE != null) return nodeSE;
         if(isPaint && current.getNodeSW() != null){
             runAnimationSearch(current.getxPos(), current.getyPos()
                     , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
-                    , isPaint, "");
+                    , isPaint, "", andDelete);
         }
-        PointQuadNode nodeSW = searchLabel(current.getNodeSW(), stringLabel, isPaint);
+        PointQuadNode nodeSW = searchLabel(current.getNodeSW(), stringLabel, andDelete, isPaint);
         if(nodeSW != null) return nodeSW;
         
         return null;
     }
-    private void runAnimationSearch(int xs, int ys, int xf, int yf, boolean isLeave, String string){
+    private void runAnimationSearch(int xs, int ys, int xf, int yf, boolean isLeave, String string, boolean andDelete){
         int u1 = (xf - xs);
         int u2 = (yf - ys);
         
         for(double t = 0.0; t <= 1.0; t+= 0.001){
             int x = (int) (xs + t*u1);
             int y = (int) (ys + t*u2);
-            
-            ProcessesPaintTree.addPointSearch(new Point2D(x, y));
+            if(andDelete)
+                ProcessesPaintTree.addPointSearchAndDelete(new Point2D(x, y));
+            else
+                ProcessesPaintTree.addPointSearch(new Point2D(x, y));
         }
         
         if(!isLeave)
         for(int i=0; i<100; i++){
-            ProcessesPaintTree.addPointSearch(new Point2D(xf, yf));
+            if(andDelete)
+                ProcessesPaintTree.addPointSearchAndDelete(new Point2D(xf, yf));
+            else
+                ProcessesPaintTree.addPointSearch(new Point2D(xf, yf));
         }
     }
 
     @Override
     public void searchPointAndPaint(Point point, boolean paint) {
         try{
-            searchPoint(root, point, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+            searchPoint(root, point,false, paint).setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
         }catch(NullPointerException nullPointerException){
             nullPointerException.printStackTrace();
         }
     }
     
-    private PointQuadNode searchPoint(PointQuadNode current, Point point, boolean isPaint){
+    private PointQuadNode searchPoint(PointQuadNode current, Point point,boolean andDelete, boolean isPaint){
         if(current == null) return null;
         if(current.getPoint().equalPoint(point)){
             if(isPaint){
@@ -413,33 +426,33 @@ public class PointQuadTree extends Tree{
             if(isPaint && current.getNodeNW() != null){
                 runAnimationSearch(current.getxPos(), current.getyPos()
                         , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
-                        , isPaint, "");
+                        , isPaint, "", andDelete);
             }
-            return searchPoint(current.getNodeNW(), point, isPaint);
+            return searchPoint(current.getNodeNW(), point, andDelete, isPaint);
         }
         if(priority == 2){
             if(isPaint && current.getNodeNE() != null){
                 runAnimationSearch(current.getxPos(), current.getyPos()
                         , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
-                        , isPaint, "");
+                        , isPaint, "", andDelete);
             }
-            return searchPoint(current.getNodeNE(), point, isPaint);
+            return searchPoint(current.getNodeNE(), point, andDelete, isPaint);
         }
         if(priority == 3){
             if(isPaint && current.getNodeSE() != null){
                 runAnimationSearch(current.getxPos(), current.getyPos()
                         , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
-                        , isPaint, "");
+                        , isPaint, "", andDelete);
             }
-            return searchPoint(current.getNodeSE(), point, isPaint);
+            return searchPoint(current.getNodeSE(), point, andDelete, isPaint);
         }
         
         if(isPaint && current.getNodeSW() != null){
                 runAnimationSearch(current.getxPos(), current.getyPos()
                         , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
-                        , isPaint, "");
+                        , isPaint, "", andDelete);
             }
-        return searchPoint(current.getNodeSW(), point, isPaint);        
+        return searchPoint(current.getNodeSW(), point, andDelete, isPaint);        
     }
 
     @Override

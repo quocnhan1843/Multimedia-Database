@@ -16,7 +16,7 @@ import multidimensionaldata.tree.ProcessesPaintTree;
 import multidimensionaldata.tree.Tree;
 
 public class Paint extends JPanel implements MouseListener,MouseMotionListener {
-       // private Node node;
+        private Node node;
         private Node nodePaint;
 	private int preX, preY;
 	private final int height;
@@ -58,7 +58,7 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
     
     public void updateLocation(MouseEvent e) {
         try{
-            //node.setPos(preX + (int) (e.getX() / Paint.getK()), preY + (int) (e.getY() / Paint.getK()) );
+            node.setPos(preX + (int) (e.getX() / Paint.getK()), preY + (int) (e.getY() / Paint.getK()) );
             nodePaint.setPos(preX + (int) (e.getX() / Paint.getK()), preY + (int) (e.getY() / Paint.getK()) );
             checkIn();
             repaint();
@@ -76,7 +76,7 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         if(ProcessesPaintTree.stateRun != ProcessesPaintTree.STATE.WAITING) return;
         try{
-            //node = tree.findNode(e);
+            node = runnablePaint.getTreeMain().findNode(e);
             nodePaint = runnablePaint.getTreePaint().findNode(e);
             if(nodePaint == null) return;
             nodePaint.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
@@ -94,7 +94,7 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         if(nodePaint != null) nodePaint.setColor(Dictionary.COLOR.BACKGROUND_NODE.getColor());
         nodePaint = null;
-        //node = null;
+        node = null;
         repaint();
     }
 
@@ -143,6 +143,6 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
           new_y = 0;
         }
         nodePaint.setPos(new_x, new_y);
-        //node.setPos(new_x, new_y);
+        node.setPos(new_x, new_y);
     }
 }

@@ -23,6 +23,10 @@ public class ProcessesPaintTree implements Runnable{
         processDeleteNode.setInfo(nodeObject, nodeTarget);
     }
     
+    public static void setNodeSearchAndDelete(InfoNode infoNode){
+        processSearchAndDelete.setInfo(infoNode);
+    }
+    
     public static void setNodeSearch(InfoNode infoNode){
         processSearchNode.setInfo(infoNode);
     }
@@ -72,7 +76,15 @@ public class ProcessesPaintTree implements Runnable{
         processSearchNode.add(point2D);
     }
 
-    public static enum STATE{WAITING, INSERTING, DELETING, SEARCHING};
+    static void addPointSearchAndDelete(Point2D point2D) {
+        processSearchAndDelete.add(point2D);
+    }
+
+    public Tree getTreeMain() {
+        return treeMain;
+    }
+
+    public static enum STATE{WAITING, INSERTING, DELETING, SEARCHING, SEARCH_AND_DELETE};
     public static STATE stateRun = STATE.WAITING;
     
     private static Tree treeMain;
@@ -87,6 +99,7 @@ public class ProcessesPaintTree implements Runnable{
     private static ProcessInsertNode processInsertNode = new ProcessInsertNode();
     private static ProcessDeleteNode processDeleteNode = new ProcessDeleteNode();
     private static ProcessSearchNode processSearchNode = new ProcessSearchNode();
+    private static ProcessSearchAndDelete processSearchAndDelete = new ProcessSearchAndDelete();
     
     private static long timeStart = System.currentTimeMillis();
 
@@ -110,6 +123,9 @@ public class ProcessesPaintTree implements Runnable{
         }else if(stateRun == ProcessesPaintTree.STATE.DELETING){
             MultiDimensionalDataStructure.buttonPlayPause.setIcon(getIcon(Dictionary.Icons.PAUSE.getString()));
             processDeleteNode.paint(g2d);
+        }else if(stateRun == ProcessesPaintTree.STATE.SEARCH_AND_DELETE){
+            MultiDimensionalDataStructure.buttonPlayPause.setIcon(getIcon(Dictionary.Icons.PAUSE.getString()));
+            processSearchAndDelete.paint(g2d);
         }
     }
     
@@ -124,12 +140,17 @@ public class ProcessesPaintTree implements Runnable{
                        stateRun = STATE.SEARCHING;
                    }else if(processDeleteNode.canNext()){
                        stateRun = STATE.DELETING;
+                   }else if(processSearchAndDelete.canNext()){
+                       stateRun = STATE.SEARCH_AND_DELETE;
                    }
                    else{
                        if(MultiDimensionalDataStructure.buttonPlayPause != null)
                             MultiDimensionalDataStructure.buttonPlayPause.setIcon(getIcon(Dictionary.Icons.PLAY.getString()));
                    }
                }else{
+                   if(timeSpeed == 1){
+                       MultiDimensionalDataStructure.resetLabelSpeed();
+                   }
                    if(MultiDimensionalDataStructure.status == MultiDimensionalDataStructure.STATE.SKIPFORWARD){
                        timeSpeed = 1;
                        MultiDimensionalDataStructure.labelSpeed.setText("");
@@ -169,6 +190,7 @@ public class ProcessesPaintTree implements Runnable{
         if(stateRun == ProcessesPaintTree.STATE.INSERTING) processInsertNode.go(treePaint);
         else if(stateRun == ProcessesPaintTree.STATE.DELETING) processDeleteNode.go(treePaint);
         else if(stateRun == ProcessesPaintTree.STATE.SEARCHING) processSearchNode.go(treePaint);
+        else if(stateRun == ProcessesPaintTree.STATE.SEARCH_AND_DELETE) processSearchAndDelete.go(treePaint);
     }
     
     private void changeButtonPlayPause(){

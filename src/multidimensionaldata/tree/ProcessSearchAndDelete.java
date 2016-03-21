@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 import multidimensionaldata.control.MultiDimensionalDataStructure;
 
-public class ProcessSearchNode {
+public class ProcessSearchAndDelete {
     
     private Vector vectorSearch;
     private InfoNode infoNode;
@@ -18,7 +18,7 @@ public class ProcessSearchNode {
     private int xPos, yPos;
     private int index ;
 
-    public ProcessSearchNode() {
+    public ProcessSearchAndDelete() {
         vectorSearch = new Vector();
         infoNode = new InfoNode(new String(), new Point());
         xPos =  yPos = 0;
@@ -43,11 +43,9 @@ public class ProcessSearchNode {
         if(isComplete()){
             MultiDimensionalDataStructure.status = MultiDimensionalDataStructure.STATE.NOTHING;
             ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
-            treePaint.searchLabelAndPaint(infoNode.getLabel(), false);
-            if(treePaint.getName().equals(Dictionary.Words.NAME_POINTQUADTREE.getString()) 
-                    && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.SEARCH_AND_DELETE){
-                treePaint.deleteNodeLabel(infoNode.getLabel(), false);
-            }
+            
+            treePaint.deleteNodeLabel(infoNode.getLabel(), false);
+            
             reset();
             return;
         }
@@ -55,7 +53,7 @@ public class ProcessSearchNode {
         if(MultiDimensionalDataStructure.status == MultiDimensionalDataStructure.STATE.PAUSE){
             return;
         }
-        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.SEARCHING;
+        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.SEARCH_AND_DELETE;
         try{
             if(index < getSize()){
                 Point2D p2dObject = (Point2D) vectorSearch.get(index);

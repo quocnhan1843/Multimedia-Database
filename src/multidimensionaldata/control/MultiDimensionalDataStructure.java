@@ -349,4 +349,8 @@ public class MultiDimensionalDataStructure extends JPanel{
         comboBoxDimension.setFont(new Font(Dictionary.Font.DEFAULT.getString(),
                                         Font.PLAIN, Dictionary.Font_Size.DEFAULT.getValue()));
     }
+    
+    public static void resetLabelSpeed(){
+        labelSpeed.setText("");
+    }
 }
