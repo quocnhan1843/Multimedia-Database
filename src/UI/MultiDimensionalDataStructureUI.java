@@ -27,7 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class MultiDimensionalDataStructureUI extends javax.swing.JFrame{
 
-    private static int lang = 1;
+    public static int lang = 1;
     private MultiDimensionalDataStructure multiDimensionalDataStructure;
     public MultiDimensionalDataStructureUI() {
         initComponents();
