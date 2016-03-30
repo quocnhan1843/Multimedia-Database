@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.KDimensionalTree;
 import multidimensionaldata.tree.PointQuadTree;
-import multidimensionaldata.tree.ProcessesPaintTree;
+import multidimensionaldata.tree.process.ProcessesPaintTree;
 import multidimensionaldata.tree.Tree;
 
 /**

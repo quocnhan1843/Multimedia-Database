@@ -12,7 +12,7 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import multidimensionaldata.tree.ProcessesPaintTree;
+import multidimensionaldata.tree.process.ProcessesPaintTree;
 import multidimensionaldata.tree.Tree;
 
 /**

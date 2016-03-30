@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.Node;
-import multidimensionaldata.tree.ProcessesPaintTree;
+import multidimensionaldata.tree.process.ProcessesPaintTree;
 import multidimensionaldata.tree.Tree;
 
 public class Paint extends JPanel implements MouseListener,MouseMotionListener {

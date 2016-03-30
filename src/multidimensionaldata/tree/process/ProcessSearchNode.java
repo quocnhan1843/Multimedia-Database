@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package multidimensionaldata.tree;
+package multidimensionaldata.tree.process;
 
 import UI.Dictionary;
 import java.awt.Graphics2D;
 import java.util.Vector;
 import multidimensionaldata.control.MultiDimensionalDataStructure;
+import multidimensionaldata.tree.InfoNode;
+import multidimensionaldata.tree.Point;
+import multidimensionaldata.tree.Point2D;
+import multidimensionaldata.tree.Tree;
 
-public class ProcessSearchAndDelete {
+public class ProcessSearchNode {
     
     private Vector vectorSearch;
     private InfoNode infoNode;
@@ -18,7 +22,7 @@ public class ProcessSearchAndDelete {
     private int xPos, yPos;
     private int index ;
 
-    public ProcessSearchAndDelete() {
+    public ProcessSearchNode() {
         vectorSearch = new Vector();
         infoNode = new InfoNode(new String(), new Point());
         xPos =  yPos = 0;
@@ -43,9 +47,11 @@ public class ProcessSearchAndDelete {
         if(isComplete()){
             MultiDimensionalDataStructure.status = MultiDimensionalDataStructure.STATE.NOTHING;
             ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
-            
-            treePaint.deleteNodeLabel(infoNode.getLabel(), false);
-            
+            treePaint.searchLabelAndPaint(infoNode.getLabel(), false);
+            if(treePaint.getName().equals(Dictionary.Words.NAME_POINTQUADTREE.getString()) 
+                    && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.SEARCH_AND_DELETE){
+                treePaint.deleteNodeLabel(infoNode.getLabel(), false);
+            }
             reset();
             return;
         }
@@ -53,7 +59,7 @@ public class ProcessSearchAndDelete {
         if(MultiDimensionalDataStructure.status == MultiDimensionalDataStructure.STATE.PAUSE){
             return;
         }
-        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.SEARCH_AND_DELETE;
+        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.SEARCHING;
         try{
             if(index < getSize()){
                 Point2D p2dObject = (Point2D) vectorSearch.get(index);

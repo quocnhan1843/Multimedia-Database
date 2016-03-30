@@ -5,6 +5,7 @@
  */
 package multidimensionaldata.tree;
 
+import multidimensionaldata.tree.process.ProcessesPaintTree;
 import UI.Dictionary;
 import java.awt.Color;
 import java.awt.Font;

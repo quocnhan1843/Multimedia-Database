@@ -1,53 +1,55 @@
-
-package multidimensionaldata.tree;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package multidimensionaldata.tree.process;
 
 import UI.Dictionary;
 import java.awt.Graphics2D;
 import java.util.Vector;
 import multidimensionaldata.control.MultiDimensionalDataStructure;
+import multidimensionaldata.tree.InfoNode;
+import multidimensionaldata.tree.Point;
+import multidimensionaldata.tree.Point2D;
+import multidimensionaldata.tree.Tree;
 
-public class ProcessDeleteNode {
+public class ProcessSearchAndDelete {
     
-    private Vector vectorObject;
-    private Vector vectorTarget;
+    private Vector vectorSearch;
+    private InfoNode infoNode;
     
-    private int index = 0;
-    
-    private InfoNode infoObject;
-    private InfoNode infoTarget;
-    
-    private int xObject, yOject, xTarget, yTarget;
-    
-    public ProcessDeleteNode(){
-        vectorObject = new Vector();
-        vectorTarget = new Vector();
-        
-        xObject = yOject = xTarget = yTarget = -200;
-    }
-    public void setInfo(InfoNode nodeObject, InfoNode nodeTarget){
-        infoObject = nodeObject;
-        infoTarget = nodeTarget;
-    }
-    
-    public void reset(){
-        vectorObject.clear();
-        vectorTarget.clear();
+    private int xPos, yPos;
+    private int index ;
+
+    public ProcessSearchAndDelete() {
+        vectorSearch = new Vector();
+        infoNode = new InfoNode(new String(), new Point());
+        xPos =  yPos = 0;
         index = 0;
     }
     
     private boolean isComplete(){
-        return (index >= getSize());
-    }
-
-    private int getSize(){
-        return Math.min(vectorObject.size(), vectorTarget.size());
+        return index >= vectorSearch.size();
     }
     
-    public void go(Tree treePaint) {        
+    private void reset(){
+        vectorSearch.clear();
+        index = 0;
+        xPos = yPos = 0;
+    }
+
+    public int getSize(){
+        return vectorSearch.size();
+    }
+    
+    public void go(Tree treePaint) {
         if(isComplete()){
             MultiDimensionalDataStructure.status = MultiDimensionalDataStructure.STATE.NOTHING;
             ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
-            treePaint.deleteNodeLabel(infoObject.getLabel(), false);
+            
+            treePaint.deleteNodeLabel(infoNode.getLabel(), false);
+            
             reset();
             return;
         }
@@ -55,26 +57,19 @@ public class ProcessDeleteNode {
         if(MultiDimensionalDataStructure.status == MultiDimensionalDataStructure.STATE.PAUSE){
             return;
         }
-        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.DELETING;
+        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.SEARCH_AND_DELETE;
         try{
             if(index < getSize()){
-                Point2D p2dObject = (Point2D) vectorObject.get(index);
-                Point2D p2dTarget = (Point2D) vectorTarget.get(index);
-                if(p2dObject == null || p2dTarget == null){
+                Point2D p2dObject = (Point2D) vectorSearch.get(index);
+                if(p2dObject == null){
                     ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
-                    vectorObject.clear();
-                    vectorTarget.clear();
-                    index = 0;
+                    reset();
                     return;
                 }
-                xObject = p2dObject.getX();
-                yOject = p2dObject.getY();
-                
-                xTarget = p2dTarget.getX();
-                yTarget = p2dTarget.getY();
+                xPos = p2dObject.getX();
+                yPos = p2dObject.getY();
             }else{
                 reset();
-                index = 0;
             }
         }catch(NullPointerException ex){
             ex.printStackTrace();
@@ -87,32 +82,26 @@ public class ProcessDeleteNode {
         }
     }
 
-    public void addPoint(Point2D pointObject, Point2D pointTarget) {
-        vectorObject.addElement(pointObject);
-        vectorTarget.addElement(pointTarget);
+    public void add(Point2D point2D) {
+        vectorSearch.addElement(point2D);
     }
-    
-    public void paint(Graphics2D g2d){
-        
-        drawNode(g2d, xObject, yOject, infoObject);
-        drawNode(g2d, xTarget, yTarget, infoTarget);
-    }
-    
-    private void drawNode(Graphics2D g2d, int x, int y, InfoNode info){
-                
-        try{
+
+    public void paint(Graphics2D g2d) {        
+        try{            
+            int x = (int) xPos;
+            int y = (int) yPos;
 
             int dx = 120/ProcessesPaintTree.treePaint.getNumOfDimension();
             int dy = 14;
             
-            Vector v = info.getPoint().getLocation();
+            Vector v = infoNode.getPoint().getLocation();
             
             //Fill color background
             g2d.setColor(Dictionary.COLOR.BACKGROUND_NODE_WHEN_RUN.getColor());
 
             g2d.fillRect(x, y, 120, dy);
 
-            for (int i = 0; i < v.size(); i++) {
+            for (int i = 0; i < ProcessesPaintTree.treePaint.getNumOfDimension(); i++) {
                 g2d.fillRect(x + i*dx, y + dy, dx, dy);
             }
 
@@ -124,7 +113,7 @@ public class ProcessDeleteNode {
             int s = g2d.getFont().getSize();
             g2d.drawRect(x, y, 120, dy);        
 
-            for (int i = 0; i < v.size(); i++) {
+            for (int i = 0; i < ProcessesPaintTree.treePaint.getNumOfDimension(); i++) {
                 g2d.drawRect(x + i*dx, y + dy, dx, dy);
             }
 
@@ -133,7 +122,9 @@ public class ProcessDeleteNode {
 
             //Draw String2d
             g2d.setColor(Dictionary.COLOR.TEXT_NODE.getColor());
-            g2d.drawString(info.getLabel(), (Math.max(120 -  info.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
+            g2d.drawString(infoNode.getLabel(), (Math.max(120 
+                    -  infoNode.getLabel().length()*s,4))/2 
+                    + (x + 4) , y + dy - 1 );
             for (int i = 0; i < v.size(); i++) {
                 g2d.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);
             }
@@ -146,7 +137,10 @@ public class ProcessDeleteNode {
     }
 
     public boolean canNext() {
-        return Math.min(vectorObject.size(), vectorTarget.size()) > 0;
+        return vectorSearch.size() > 0;
     }
-    
+
+    public void setInfo(InfoNode infoNode) {
+        this.infoNode = infoNode;
+    }
 }

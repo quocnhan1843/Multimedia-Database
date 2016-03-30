@@ -45,7 +45,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import multidimensionaldata.tree.InfoNode;
 import multidimensionaldata.tree.Point;
-import multidimensionaldata.tree.ProcessesPaintTree;
+import multidimensionaldata.tree.process.ProcessesPaintTree;
 import multidimensionaldata.tree.Tree;
 
 /**

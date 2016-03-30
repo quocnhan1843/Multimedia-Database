@@ -1,4 +1,4 @@
-package multidimensionaldata.tree;
+package multidimensionaldata.tree.process;
 
 import multidimensionaldata.control.ControlTreePanel;
 import UI.Dictionary;
@@ -9,6 +9,9 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Vector;
 import javax.swing.ImageIcon;
+import multidimensionaldata.tree.InfoNode;
+import multidimensionaldata.tree.Point2D;
+import multidimensionaldata.tree.Tree;
 
 public class ProcessInsertNode {
     private double xInsert=-200, yInsert = -200;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package multidimensionaldata.tree;
+package multidimensionaldata.tree.process;
 
 import UI.Dictionary;
 import multidimensionaldata.control.MultiDimensionalDataStructure;
@@ -12,6 +12,12 @@ import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import multidimensionaldata.control.ControlTreePanel;
+import multidimensionaldata.tree.InfoNode;
+import multidimensionaldata.tree.KDimensionalTree;
+import multidimensionaldata.tree.Point;
+import multidimensionaldata.tree.Point2D;
+import multidimensionaldata.tree.PointQuadTree;
+import multidimensionaldata.tree.Tree;
 
 public class ProcessesPaintTree implements Runnable{
 
@@ -60,7 +66,7 @@ public class ProcessesPaintTree implements Runnable{
         }
     }
 
-    static void addPointInsert(Point2D point2D, String string) {
+    public static void addPointInsert(Point2D point2D, String string) {
         processInsertNode.addPoint(point2D, string);
     }
     
@@ -76,7 +82,7 @@ public class ProcessesPaintTree implements Runnable{
         processSearchNode.add(point2D);
     }
 
-    static void addPointSearchAndDelete(Point2D point2D) {
+    public static void addPointSearchAndDelete(Point2D point2D) {
         processSearchAndDelete.add(point2D);
     }
 
