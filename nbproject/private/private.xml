@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/MyProject/Multimedia-Database/src/latentsemanticindexing/control/Test.java</file>
-            <file>file:/D:/MyProject/Multimedia-Database/src/latentsemanticindexing/control/StopWords.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/PointQuadTree.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/ProcessDeleteDimensional.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/ProcessDelete.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/ProcessDeletePointQuad.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/control/ControlTreePanel.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/ProcessDeleteMatrixQuad.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/Process.java</file>
         </group>
     </open-files>
 </project-private>

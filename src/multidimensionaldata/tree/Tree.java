@@ -20,6 +20,8 @@ public abstract class Tree {
     private int xMin, xMax, yMin, yMax;
     private Graphics2D g2d;
     
+    //public static enum STATE_INSERT{SUCCESSFUL
+    
     public abstract Node getRoot();
     public abstract void insertNode(String label, Point points, boolean paint);
     public abstract void deleteNodeLabel(String label, boolean paint);

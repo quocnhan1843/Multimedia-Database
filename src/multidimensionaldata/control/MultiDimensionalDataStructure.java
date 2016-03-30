@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.KDimensionalTree;
 import multidimensionaldata.tree.PointQuadTree;
-import multidimensionaldata.tree.process.ProcessesPaintTree;
+import multidimensionaldata.tree.process.Process;
 import multidimensionaldata.tree.Tree;
 
 /**
@@ -195,8 +195,8 @@ public class MultiDimensionalDataStructure extends JPanel{
     }
     private void resetAll(Tree tree, int k){
         controll.clearTable();
-        ProcessesPaintTree.setTreePaint(tree);
-        ProcessesPaintTree.clearComponents();
+        Process.setTreePaint(tree);
+        Process.clearComponents();
 
         resetStatus();
         controll = new ControlTreePanel(tree, centerPanel, k);
@@ -239,8 +239,8 @@ public class MultiDimensionalDataStructure extends JPanel{
             tree = new KDimensionalTree(k);
             resetAll(tree, k);
 //            controll.clearTable();
-//            ProcessesPaintTree.setTreePaint(tree);
-//            ProcessesPaintTree.clearComponents();
+//            Process.setTreePaint(tree);
+//            Process.clearComponents();
 //            
 //            resetStatus();
 //            controll = new ControlTreePanel(tree, centerPanel, k);
@@ -249,7 +249,7 @@ public class MultiDimensionalDataStructure extends JPanel{
 //            rightPanel.revalidate();
         });
         buttonPlayPause.addActionListener((ActionEvent e) -> {
-            if(ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.WAITING) return;
+            if(Process.stateRun == Process.STATE.WAITING) return;
             changeStatusButtonPlayPause();
         });
         buttonForward.addActionListener((ActionEvent e)->{
@@ -261,17 +261,17 @@ public class MultiDimensionalDataStructure extends JPanel{
             status = STATE.BACKWARD;
         });
         buttonSkipForward.addActionListener((ActionEvent e) ->{
-            if(ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.WAITING) return;
+            if(Process.stateRun == Process.STATE.WAITING) return;
             status = STATE.SKIPFORWARD;
         });
         buttonSkipBackward.addActionListener((ActionEvent e)->{
-            if(ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.WAITING) return;
+            if(Process.stateRun == Process.STATE.WAITING) return;
             status = STATE.SKIPBACKWARD;
         });
     }
     private void resetStatus(){
         status = STATE.NOTHING;
-        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
+        Process.stateRun = Process.STATE.WAITING;
     }
     public static STATE saveStatus = STATE.NOTHING;
     private void changeStatusButtonPlayPause() {
@@ -286,26 +286,26 @@ public class MultiDimensionalDataStructure extends JPanel{
     }
     private void setButtonForward(){
         if(status == STATE.BACKWARD){
-            ProcessesPaintTree.timeSpeed = 1;
+            Process.timeSpeed = 1;
             labelSpeed.setText("");
             return;
         }
-        if(ProcessesPaintTree.timeSpeed == 8) ProcessesPaintTree.timeSpeed = 1;
-        else ProcessesPaintTree.timeSpeed *= 2;
-        if(ProcessesPaintTree.timeSpeed == 1) labelSpeed.setText("");
-        else labelSpeed.setText("x" + ProcessesPaintTree.timeSpeed);
+        if(Process.timeSpeed == 8) Process.timeSpeed = 1;
+        else Process.timeSpeed *= 2;
+        if(Process.timeSpeed == 1) labelSpeed.setText("");
+        else labelSpeed.setText("x" + Process.timeSpeed);
     }
     
     private void setButtonBackward(){
         if(status == STATE.FORWARD){
-            ProcessesPaintTree.timeSpeed = 1;
+            Process.timeSpeed = 1;
             labelSpeed.setText("");
             return;
         }
-        if(ProcessesPaintTree.timeSpeed == 8) ProcessesPaintTree.timeSpeed = 1;
-        else ProcessesPaintTree.timeSpeed *= 2;
-        if(ProcessesPaintTree.timeSpeed == 1) labelSpeed.setText("");
-        else labelSpeed.setText("x1/" + ProcessesPaintTree.timeSpeed);
+        if(Process.timeSpeed == 8) Process.timeSpeed = 1;
+        else Process.timeSpeed *= 2;
+        if(Process.timeSpeed == 1) labelSpeed.setText("");
+        else labelSpeed.setText("x1/" + Process.timeSpeed);
     }
     
     private void setButtonZoomOut(){

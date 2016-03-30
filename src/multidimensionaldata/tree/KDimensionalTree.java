@@ -5,13 +5,11 @@
  */
 package multidimensionaldata.tree;
 
-import multidimensionaldata.tree.process.ProcessesPaintTree;
+import multidimensionaldata.tree.process.Process;
 import UI.Dictionary;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 import multidimensionaldata.control.ControlTreePanel;
 
 /**
@@ -109,12 +107,12 @@ public class KDimensionalTree extends Tree{
             int x = (int) (xs + t*u1);
             int y = (int) (ys + t*u2);
             
-            ProcessesPaintTree.addPointInsert(new Point2D(x, y), string);
+            Process.addPointInsert(new Point2D(x, y), string);
         }
         
         if(!isLeave)
         for(int i=0; i<100; i++){
-            ProcessesPaintTree.addPointInsert(new Point2D(xf, yf),string);
+            Process.addPointInsert(new Point2D(xf, yf),string);
         }
     }
 
@@ -128,8 +126,8 @@ public class KDimensionalTree extends Tree{
                 return;
             }
             if(current.isLeaves()){
-                ProcessesPaintTree.setNodeDelete(new InfoNode(label, new Point()), new InfoNode(label, new Point()));
-                ProcessesPaintTree.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
+                Process.setNodeDelete(new InfoNode(label, new Point()), new InfoNode(label, new Point()));
+                Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
             if(this.root != null)
@@ -149,9 +147,9 @@ public class KDimensionalTree extends Tree{
                 return;
             }
             if(current.isLeaves()){
-                ProcessesPaintTree.setNodeDelete(new InfoNode(current.getLabel(), new Point())
+                Process.setNodeDelete(new InfoNode(current.getLabel(), new Point())
                         , new InfoNode(current.getLabel(), new Point()));
-                ProcessesPaintTree.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
+                Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
             if(this.root != null)
@@ -223,12 +221,12 @@ public class KDimensionalTree extends Tree{
             current.setRightChild(current.getLeftChild());
             current.setLeftChild(null);
         }
-        ProcessesPaintTree.setNodeDelete(new InfoNode(current.getLabel(), current.getPoint())
+        Process.setNodeDelete(new InfoNode(current.getLabel(), current.getPoint())
                                                 ,new InfoNode(minNode.getLabel(), minNode.getPoint()));
         
         ControlTreePanel.swapValue(current.getLabel(),minNode.getLabel());
-//        ProcessesPaintTree.treePaint.setColor(current);
-//        ProcessesPaintTree.treePaint.setColor(minNode);
+//        Process.treePaint.setColor(current);
+//        Process.treePaint.setColor(minNode);
         current.swapNode(minNode);
         removeNode(minNode, k, paint);
     }
@@ -259,10 +257,10 @@ public class KDimensionalTree extends Tree{
             int x2 = (int) (xf - t*u1);
             int y2 = (int) (yf - t*u2);
             
-            ProcessesPaintTree.addPointSwap(new Point2D(x1, y1), new Point2D(x2, y2));
+            Process.addPointSwap(new Point2D(x1, y1), new Point2D(x2, y2));
         }
         
-        ProcessesPaintTree.addPointSwap(new Point2D(-1000, -1000), new Point2D(-1000, -1000));
+        Process.addPointSwap(new Point2D(-1000, -1000), new Point2D(-1000, -1000));
     }
     private void runAnimationSearch(int xs, int ys, int xf, int yf, boolean isLeave){
 
@@ -273,12 +271,12 @@ public class KDimensionalTree extends Tree{
             int x1 = (int) (xs + t*u1);
             int y1 = (int) (ys + t*u2);
             
-            ProcessesPaintTree.addPointSearch(new Point2D(x1, y1));
+            Process.addPointSearch(new Point2D(x1, y1));
         }
         
         if(!isLeave)
         for(int i=0; i<1000; i++){
-          //  ProcessesPaintTree.addNodeInsert(new Point2D(xf, yf));
+          //  Process.addNodeInsert(new Point2D(xf, yf));
         }
     }
 
@@ -330,7 +328,7 @@ public class KDimensionalTree extends Tree{
     private KDimensionalNode searchNodeLabel(KDimensionalNode current, KDimensionalNode node, boolean paint){
         if(current == null) return null;
         if(current.getLabel().equals(node.getLabel())){
-            ProcessesPaintTree.setNodeSearch(new InfoNode(node.getLabel(), node.getPoint()));
+            Process.setNodeSearch(new InfoNode(node.getLabel(), node.getPoint()));
             return current;
         }
         if(paint){
@@ -352,7 +350,7 @@ public class KDimensionalTree extends Tree{
     private KDimensionalNode searchNodePoint(KDimensionalNode current, KDimensionalNode node, boolean paint){
         if(current == null) return null;
         if(node.getPoint().equalPoint(current.getPoint())){
-            ProcessesPaintTree.setNodeSearch(new InfoNode(node.getLabel(), node.getPoint()));
+            Process.setNodeSearch(new InfoNode(node.getLabel(), node.getPoint()));
             return current;
         }
         if(node.greaterNode(current, current.getLevel()% super.getNumOfDimension())){

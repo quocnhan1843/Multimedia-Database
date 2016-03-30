@@ -5,17 +5,16 @@
  */
 package multidimensionaldata.tree;
 
-import multidimensionaldata.tree.process.ProcessesPaintTree;
 import UI.Dictionary;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.Vector;
+import multidimensionaldata.tree.process.Process;
 
 /**
  *
@@ -250,12 +249,12 @@ public class PointQuadTree extends Tree{
             int x = (int) (xs + t*u1);
             int y = (int) (ys + t*u2);
             
-            ProcessesPaintTree.addPointInsert(new Point2D(x, y), string);
+            Process.addPointInsert(new Point2D(x, y), string);
         }
         
         if(!isLeave)
         for(int i=0; i<100; i++){
-            ProcessesPaintTree.addPointInsert(new Point2D(xf, yf),string);
+            Process.addPointInsert(new Point2D(xf, yf),string);
         }
     }
 
@@ -275,16 +274,22 @@ public class PointQuadTree extends Tree{
         Queue queueList = new LinkedList();
         if(isPaint == false){
             queueList = getList(pointQuadNode);
+        }else{
+            Process.addPointDelete(new Point2D(0, 0));
+            Process.setNodeDelete(new InfoNode(pointQuadNode.getLabel()
+                    , pointQuadNode.getPoint()));
         }
         
         if(pointQuadNode == root) setEmpty();
-        else deleteChild(pointQuadNode.getParent(), pointQuadNode);
+        else{
+            deleteChild(pointQuadNode.getParent(), pointQuadNode);
+        }
         
         if(isPaint == false)
             while(!queueList.isEmpty()){
                 InfoNode infoNode = (InfoNode) queueList.poll();
-
-                ProcessesPaintTree.addQueueInsert(infoNode);
+                
+                Process.addQueueInsert(infoNode);
             }
     }
     
@@ -342,10 +347,7 @@ public class PointQuadTree extends Tree{
         if(current == null) return null;
         if(current.getLabel().equals(stringLabel)){
             if(isPaint){
-                if(andDelete)
-                    ProcessesPaintTree.setNodeSearchAndDelete(new InfoNode(current.getLabel(), current.getPoint()));
-                else
-                    ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+                Process.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
             }
             return current;
         }
@@ -388,18 +390,12 @@ public class PointQuadTree extends Tree{
         for(double t = 0.0; t <= 1.0; t+= 0.001){
             int x = (int) (xs + t*u1);
             int y = (int) (ys + t*u2);
-            if(andDelete)
-                ProcessesPaintTree.addPointSearchAndDelete(new Point2D(x, y));
-            else
-                ProcessesPaintTree.addPointSearch(new Point2D(x, y));
+            Process.addPointSearch(new Point2D(x, y)); 
         }
         
         if(!isLeave)
         for(int i=0; i<100; i++){
-            if(andDelete)
-                ProcessesPaintTree.addPointSearchAndDelete(new Point2D(xf, yf));
-            else
-                ProcessesPaintTree.addPointSearch(new Point2D(xf, yf));
+            Process.addPointSearch(new Point2D(xf, yf));
         }
     }
 
@@ -416,7 +412,7 @@ public class PointQuadTree extends Tree{
         if(current == null) return null;
         if(current.getPoint().equalPoint(point)){
             if(isPaint){
-                ProcessesPaintTree.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+                Process.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
             }
             return current;
         }

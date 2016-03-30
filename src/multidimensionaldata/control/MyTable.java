@@ -12,7 +12,7 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import multidimensionaldata.tree.process.ProcessesPaintTree;
+import multidimensionaldata.tree.process.Process;
 import multidimensionaldata.tree.Tree;
 
 /**
@@ -37,7 +37,7 @@ public class MyTable extends JTable{
 
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component stamp = super.prepareRenderer(renderer, row, column);
-        if (row == tree.getSize() - 1 && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.INSERTING){
+        if (row == tree.getSize() - 1 && Process.stateRun == Process.STATE.INSERTING){
             stamp.setBackground(color[num]);
         }
         else{

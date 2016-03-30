@@ -45,7 +45,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import multidimensionaldata.tree.InfoNode;
 import multidimensionaldata.tree.Point;
-import multidimensionaldata.tree.process.ProcessesPaintTree;
+import multidimensionaldata.tree.process.Process;
 import multidimensionaldata.tree.Tree;
 
 /**
@@ -590,20 +590,20 @@ public class ControlTreePanel extends JTabbedPane {
         int index = this.getSelectedIndex();
         
         if(index != 0 && index != 4 
-                && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.INSERTING){
+                && Process.stateRun == Process.STATE.INSERTING){
             
             JOptionPane.showMessageDialog(this, Dictionary.Words.INSERTING.getString()
                     + "\n" +  Dictionary.Words.PLEASE_WAIT.getString()
                     , Dictionary.Words.MESSAGE.getString(), JOptionPane.INFORMATION_MESSAGE);
             this.setSelectedIndex(0);
             return;
-        }else if(index != 1 && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.DELETING){
+        }else if(index != 1 && Process.stateRun == Process.STATE.DELETING){
             JOptionPane.showMessageDialog(this, Dictionary.Words.DELETING.getString()
                     + "\n" +  Dictionary.Words.PLEASE_WAIT.getString()
                     , Dictionary.Words.MESSAGE.getString(), JOptionPane.INFORMATION_MESSAGE);
             this.setSelectedIndex(1);
             return;
-        }else if(index != 2 && ProcessesPaintTree.stateRun == ProcessesPaintTree.STATE.SEARCHING){
+        }else if(index != 2 && Process.stateRun == Process.STATE.SEARCHING){
             JOptionPane.showMessageDialog(this, Dictionary.Words.SEARCHING.getString()
                     + "\n" +  Dictionary.Words.PLEASE_WAIT.getString()
                     , Dictionary.Words.MESSAGE.getString(), JOptionPane.INFORMATION_MESSAGE);
@@ -611,7 +611,7 @@ public class ControlTreePanel extends JTabbedPane {
             return;
         }
         
-        ProcessesPaintTree.resetColor();
+        Process.resetColor();
         
         if(index == 3){
             this.setSelectedIndex(0);
@@ -632,7 +632,7 @@ public class ControlTreePanel extends JTabbedPane {
         }
     }
     private void resetStatus(){
-        ProcessesPaintTree.stateRun = ProcessesPaintTree.STATE.WAITING;
+        Process.stateRun = Process.STATE.WAITING;
         MultiDimensionalDataStructure.status = MultiDimensionalDataStructure.STATE.NOTHING;
     }
     private static String pathSave = FileSystemView.getFileSystemView().getHomeDirectory().getPath();
@@ -766,7 +766,7 @@ public class ControlTreePanel extends JTabbedPane {
                             DefaultTableModel defaultTableModel = (DefaultTableModel) tableQueue.getModel();
                                               defaultTableModel.addRow(vectorValue);
                             resetSizeTable();
-                            ProcessesPaintTree.addQueueInsert(new InfoNode(label,p));
+                            Process.addQueueInsert(new InfoNode(label,p));
 			}
 			products.close();
 			textAreaLog.setText(string);
@@ -953,7 +953,7 @@ public class ControlTreePanel extends JTabbedPane {
             DefaultTableModel defaultTableModel = (DefaultTableModel) tableQueue.getModel();
                               defaultTableModel.addRow(vectorValue);
             resetSizeTable();
-            ProcessesPaintTree.addQueueInsert(new InfoNode(label,p));
+            Process.addQueueInsert(new InfoNode(label,p));
             
             textLabelNodeInsert.setText("");
             clearText(vectorInsertTextField);
@@ -994,7 +994,7 @@ public class ControlTreePanel extends JTabbedPane {
                         , JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            ProcessesPaintTree.removeNodeLabel(label);
+            Process.removeNodeLabel(label);
             ((MyTable) tableQueue).removeLabel(label);
         }else{
             Point p = new Point();
@@ -1017,7 +1017,7 @@ public class ControlTreePanel extends JTabbedPane {
                     return;
                 }
                 
-                ProcessesPaintTree.removeNodePoint(p);
+                Process.removeNodePoint(p);
                 ((MyTable) tableQueue).removePoint( p.getLocation());
             }catch(Exception ex){}
         }
@@ -1045,7 +1045,7 @@ public class ControlTreePanel extends JTabbedPane {
                         , JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            ProcessesPaintTree.searchLabelAndPaint(label);
+            Process.searchLabelAndPaint(label);
         }else{
             Point p = new Point();
             try{
@@ -1065,7 +1065,7 @@ public class ControlTreePanel extends JTabbedPane {
                             , JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                ProcessesPaintTree.searchPointAndPaint(p);
+                Process.searchPointAndPaint(p);
             }catch(Exception ex){}
         }
         textLabelNodeSearch.setText("");

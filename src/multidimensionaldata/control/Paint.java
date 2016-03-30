@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.Node;
-import multidimensionaldata.tree.process.ProcessesPaintTree;
+import multidimensionaldata.tree.process.Process;
 import multidimensionaldata.tree.Tree;
 
 public class Paint extends JPanel implements MouseListener,MouseMotionListener {
@@ -22,10 +22,10 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
 	private final int height;
 	private static double k;
         private final Tree tree;
-        private final ProcessesPaintTree runnablePaint;
+        private final Process runnablePaint;
     public Paint(Tree tr) {
         this.tree = tr;
-        runnablePaint = new ProcessesPaintTree(tree, this);
+        runnablePaint = new Process(tree, this);
     	k = 1.0;
     	this.setOpaque(false);
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,7 +74,7 @@ public class Paint extends JPanel implements MouseListener,MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(ProcessesPaintTree.stateRun != ProcessesPaintTree.STATE.WAITING) return;
+        if(Process.stateRun != Process.STATE.WAITING) return;
         try{
             node = runnablePaint.getTreeMain().findNode(e);
             nodePaint = runnablePaint.getTreePaint().findNode(e);
