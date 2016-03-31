@@ -128,6 +128,12 @@ public class MXQuadNode extends Node{
         
         //Draw String
         g.setColor(Dictionary.COLOR.DEFAULT.getColor());
+        if(this.getLabel().equals("EMPTY")){
+            System.out.println("Rong roi");
+            return;
+        }else{
+            System.out.println("Ve thoy " + this.getLabel());
+        }
         g.drawString(this.getLabel(), (Math.max(width -  this.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
         for (int i = 0; i < v.size(); i++) {
             g.drawString(String.valueOf(v.get(i)), x + (i)*dx + 4, y + 2*dy - 1);

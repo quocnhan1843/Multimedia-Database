@@ -206,21 +206,24 @@ public class MXQuadTree extends Tree{
             this.root = matrixQuadNode;
             this.root.setPos(12*3000 + 500, 50);
         }else{
-            addNode(this.root, matrixQuadNode, isPaint);
+            add(matrixQuadNode, isPaint);
         }
     }
     
-    public void addNode( boolean isPaint){
-        if(this.searchLabel(str)) return false;
+    public void add(MXQuadNode matrixQuadNode, boolean isPaint){
+        if(this.checkLabel(matrixQuadNode.getLabel())) return;
         MXQuadNode node = new MXQuadNode();
+        
+        int x = matrixQuadNode.getxVal(), y = matrixQuadNode.getyVal();
 
         if(root == null){
-                xMin = x;
-                yMin = y;
-                xMax = x;
-                yMax = y;
-                k = 1;
-                return this.addNode(node);
+            xMin = x;
+            yMin = y;
+            xMax = x;
+            yMax = y;
+            k = 1;
+            addNode(matrixQuadNode, isPaint);
+            return;
         }
         int old_xMin = xMin;
         int old_xMax = xMax;
@@ -233,13 +236,14 @@ public class MXQuadTree extends Tree{
         yMax = Math.max(yMax, y);
 
         if(old_xMin != xMin || old_xMax != xMax || old_yMin != yMin || old_yMax != yMax){
-                while(xMin + power(2,k) <= xMax || yMin + power(2,k) <= yMax) k++;
-                Queue<Node> queue = this.getListNode();
-                this.root = null;
-                while(queue.isEmpty() == false){
-                        Node tmp = (Node) queue.poll();
-                        this.addNode(new MXQuadNode(tmp.getLabel(),tmp.getxVal(),tmp.getyVal()));
-                }
+            while(xMin + power(2,k) <= xMax || yMin + power(2,k) <= yMax) k++;
+            Queue queue = this.getListNode();
+            this.root = null;
+            while(queue.isEmpty() == false){
+                MXQuadNode tmp = (MXQuadNode) queue.poll();
+                this.addNode(new MXQuadNode(tmp.getLabel()
+                        , new Point(tmp.getxVal(),tmp.getyVal())), isPaint );
+            }
         }
     }
     
@@ -250,86 +254,12 @@ public class MXQuadTree extends Tree{
         return 4;
     }
     
-    public void addNode(MXQuadNode matrixNode){
-        int i = xMin, j = yMin, a = power(2,k);
-        int x = matrixNode.getxVal(), y = matrixNode.getyVal();
-        if(x >= xMin + a || y >= yMin + a){
-            System.out.println(xMin + " " + yMin + " " + a);
-        }
-        if(this.root == null){
-            root = new MXQuadNode("EMPTY",new Point(a/2,a/2) );
-            root.setParent(root);
-            root.setPos(12*3000+500, 50);
-        }		
-        MXQuadNode current = this.root;
-        MXQuadNode parent = this.root;
-        while(true){
-            int posNode = pos(x, y, i + a/2, j + a/2);
-            if(a == 1){
-                current.coppyNode(matrixNode);
-                current.setParent(parent);
-                updateLocation(this.root);
-            }else{
-                parent = current;
-
-                if(posNode == 1){
-                    if(current.getNodeNW() != null){
-                        current = current.getNodeNW();
-                        a /= 2;
-                        j += a;
-                        continue;
-                    }
-                    current = new MXQuadNode("EMPTY",new Point(i + a/2,j + a/2) );
-                    current.setColor(Color.black);
-                    parent.setNodeNW(current);
-                    current.setParent(parent);
-                    j += a/2;
-                }else if(posNode == 2){
-                    if(current.getNodeNE()!= null){
-                            current = current.getNodeNE();
-                            a /= 2;
-                            i += a;
-                            j += a;
-                            continue;
-                    }
-                    current = new MXQuadNode("EMPTY", new Point(i + a/2,j + a/2));
-                    current.setColor(Color.black);
-                    parent.setNodeNE(current);
-                    current.setParent(parent);
-                    i += a/2;
-                    j += a/2;
-                }else if(posNode == 3){
-                    if(current.getNodeSE()!= null){
-                        current = current.getNodeSE();
-                        a /= 2;
-                        i += a;
-                        continue;
-                    }
-                    current = new MXQuadNode("EMPTY", new Point(i + a/2,j + a/2) );
-                    current.setColor(Color.black);
-                    parent.setNodeSE(current);
-                    current.setParent(parent);
-                    i += a/2;
-                }else{
-                    if(current.getNodeSW()!= null){
-                        current = current.getNodeSW();
-                        a /= 2;
-                        continue;
-                    }
-                    current = new MXQuadNode("EMPTY", new Point(i + a/2,j + a/2) );
-                    current.setColor(Color.black);
-                    parent.setNodeSW(current);
-                    current.setParent(parent);
-                }
-            }
-            a /= 2;
-        }
-    }
+    public void addNode(MXQuadNode matrixNode, boolean isPaint){
+       
+    }    
     
-    
-    
-    public Queue<Node> getListNode(){
-        Queue<Node> queueAns =  new LinkedList();
+    public Queue<MXQuadNode> getListNode(){
+        Queue<MXQuadNode> queueAns =  new LinkedList();
         Queue<MXQuadNode> queue = new LinkedList();
         if(this.getRoot() == null) return queueAns;
         queue.add(this.getRoot());
@@ -419,8 +349,8 @@ public class MXQuadTree extends Tree{
         }
     }
     
-    private void paintNode(Graphics2D g, MXQuadNode node) {
-        node.paint(g);
+    private void paintNode(Graphics2D g2, MXQuadNode node) {
+        node.paint(g2);
     }
 
     @Override
