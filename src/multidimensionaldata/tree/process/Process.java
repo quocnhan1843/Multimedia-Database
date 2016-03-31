@@ -14,6 +14,7 @@ import multidimensionaldata.control.MultiDimensionalDataStructure;
 import multidimensionaldata.control.MyTable;
 import multidimensionaldata.tree.InfoNode;
 import multidimensionaldata.tree.KDimensionalTree;
+import multidimensionaldata.tree.MXQuadTree;
 import multidimensionaldata.tree.Point;
 import multidimensionaldata.tree.Point2D;
 import multidimensionaldata.tree.PointQuadTree;
@@ -90,6 +91,9 @@ public class Process implements Runnable{
             processDelete = new ProcessDeleteDimensional();
         }else if(tree.getName().equals(Dictionary.Words.NAME_POINTQUADTREE.getString())){
             treePaint = new PointQuadTree();
+            processDelete = new ProcessDeletePointQuad();
+        }else if(tree.getName().equals(Dictionary.Words.NAME_MATRIXQUADTREE.getString())){
+            treePaint = new MXQuadTree();
             processDelete = new ProcessDeletePointQuad();
         }
     }

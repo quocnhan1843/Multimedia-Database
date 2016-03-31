@@ -463,7 +463,7 @@ public class PointQuadTree extends Tree{
                         , Font.BOLD, Dictionary.Font_Size.TREE_TEXT.getValue()) );
         	g2.drawString(Dictionary.Words.EMPTY_TREE.getString(),12 * 3000 + 500, 50);
         }
-	}	
+    }	
 
     private void paint(Graphics2D g, PointQuadNode node) {
         if(node == null) return;
@@ -557,7 +557,7 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void setColor(Node node) {
-        
+        node.setColor();
     }
 
     private void paintNode(Graphics2D g, PointQuadNode node) {

@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.KDimensionalTree;
+import multidimensionaldata.tree.MXQuadTree;
 import multidimensionaldata.tree.PointQuadTree;
 import multidimensionaldata.tree.process.Process;
 import multidimensionaldata.tree.Tree;
@@ -228,7 +229,8 @@ public class MultiDimensionalDataStructure extends JPanel{
                     tree = new PointQuadTree();
                     resetAll(tree, 2);
                 }else{
-                    
+                    tree = new MXQuadTree();
+                    resetAll(tree, 2);
                 }
             }
         });
