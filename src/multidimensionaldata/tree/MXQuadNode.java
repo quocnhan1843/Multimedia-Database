@@ -6,6 +6,7 @@
 package multidimensionaldata.tree;
 
 import UI.Dictionary;
+import UI.Dictionary.Words;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
@@ -128,11 +129,8 @@ public class MXQuadNode extends Node{
         
         //Draw String
         g.setColor(Dictionary.COLOR.DEFAULT.getColor());
-        if(this.getLabel().equals("EMPTY")){
-            System.out.println("Rong roi");
+        if(this.getLabel().equals(Words.EMPTY_NODE.getString())){
             return;
-        }else{
-            System.out.println("Ve thoy " + this.getLabel());
         }
         g.drawString(this.getLabel(), (Math.max(width -  this.getLabel().length()*s,4))/2 + (x + 4) , y + dy - 1 );
         for (int i = 0; i < v.size(); i++) {

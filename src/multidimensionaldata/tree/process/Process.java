@@ -96,9 +96,6 @@ public class Process implements Runnable{
             treePaint = new MXQuadTree();
             processDelete = new ProcessDeletePointQuad();
         }
-        
-        System.out.println("Tree main " + treeMain.getName());
-        System.out.println("Tree Paint " + treePaint.getName());
     }
 
     public static void addPointInsert(Point2D point2D, String string) {
