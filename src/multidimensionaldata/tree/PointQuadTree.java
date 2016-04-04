@@ -37,6 +37,7 @@ public class PointQuadTree extends Tree{
     @Override
     public void setEmpty() {
         this.root = null;
+        super.setSize(0);
     }
 
     @Override
@@ -260,12 +261,14 @@ public class PointQuadTree extends Tree{
 
     @Override
     public void deleteNodeLabel(String label, boolean paint) {
+        super.setSizeDown();
         PointQuadNode pointQuadNode = searchLabel(this.root, label,true, paint);
         deleteNode(pointQuadNode, paint);
     }
 
     @Override
     public void deleteNodePoint(Point point, boolean paint) {
+        super.setSizeDown();
         PointQuadNode pointQuadNode = searchPoint(this.root, point,true, paint);
         deleteNode(pointQuadNode, paint);
     }

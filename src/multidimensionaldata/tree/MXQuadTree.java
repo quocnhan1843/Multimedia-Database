@@ -6,16 +6,15 @@
 package multidimensionaldata.tree;
 
 import UI.Dictionary;
+import UI.Dictionary.COLOR;
 import UI.Dictionary.Words;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -116,6 +115,7 @@ public class MXQuadTree extends Tree{
     @Override
     public void setEmpty() {
         this.root = null;
+        super.setSize(0);
     }
 
     @Override
@@ -186,8 +186,6 @@ public class MXQuadTree extends Tree{
     }
     
     private int positionChild(Point point1, Point point2){
-//        Point point1 = current.getPoint();
-//        Point point2 = node.getPoint();
         
         Vector<Integer> v1 = point1.getLocation();
         Vector<Integer> v2 = point2.getLocation();
@@ -226,17 +224,9 @@ public class MXQuadTree extends Tree{
             addNode(matrixQuadNode, isPaint);
             return;
         }
-        int old_xMin = xMin;
-        int old_xMax = xMax;
-        int old_yMin = yMin;
-        int old_yMax = yMax;
-
-        xMin = Math.min(xMin, x);
-        xMax = Math.max(xMax, x);
-        yMin = Math.min(yMin, y);
-        yMax = Math.max(yMax, y);
-
-        if(old_xMin != xMin || old_xMax != xMax || old_yMin != yMin || old_yMax != yMax){
+        
+        
+        if(isChangeSize(x,y)){
             while(xMin + power(2,k) <= xMax || yMin + power(2,k) <= yMax) k++;
             Queue queue = this.getListNode();
             this.root = null;
@@ -246,7 +236,25 @@ public class MXQuadTree extends Tree{
                         , new Point(tmp.getxVal(),tmp.getyVal())), isPaint );
             }
         }
+
+        
         addNode(matrixQuadNode, isPaint);
+    }
+    
+    private boolean isChangeSize(int x, int y){
+        int old_xMin = xMin;
+        int old_xMax = xMax;
+        int old_yMin = yMin;
+        int old_yMax = yMax;
+
+        xMin = Math.min(xMin, x);
+        xMax = Math.max(xMax, x);
+        yMin = Math.min(yMin, y);
+        yMax = Math.max(yMax, y);
+        
+        return (old_xMin != xMin || old_xMax != xMax 
+                || old_yMin != yMin || old_yMax != yMax);
+           
     }
     
     private void addNode(MXQuadNode matrixQuadNode, boolean isPaint){
@@ -353,22 +361,145 @@ public class MXQuadTree extends Tree{
 
     @Override
     public void deleteNodeLabel(String label, boolean paint) {
-        
+        super.setSizeDown();
+        MXQuadNode mXQuadNode = searchLabel(this.root, label, true, paint);
+        deleteNode(mXQuadNode, paint);
     }
 
     @Override
     public void deleteNodePoint(Point point, boolean paint) {
+        super.setSizeDown();
+        MXQuadNode mXQuadNode = searchPoint(this.root, point, true, paint);
+        deleteNode(mXQuadNode, paint);
+    }
+    
+    private void deleteNode(MXQuadNode mXQuadNode, boolean isPaint){
         
+    }
+    
+    private MXQuadNode searchLabel(MXQuadNode current, String stringLabel
+            ,boolean andDelete, boolean isPaint){
+        if(current == null) return null;
+        if(current.getLabel().equals(stringLabel)){
+            if(isPaint){
+                multidimensionaldata.tree.process.Process
+                        .setNodeSearch(new InfoNode(current.getLabel()
+                                , current.getPoint()));
+            }
+            return current;
+        }
+        
+        if(isPaint && current.getNodeNW() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
+                    , isPaint, "", andDelete);
+        }
+        MXQuadNode nodeNW = searchLabel(current.getNodeNW(), stringLabel, andDelete, isPaint);
+        if(nodeNW != null)  return nodeNW;
+        if(isPaint && current.getNodeNE() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
+                    , isPaint, "", andDelete);
+        }
+        MXQuadNode nodeNE = searchLabel(current.getNodeNE(), stringLabel, andDelete, isPaint);
+        if(nodeNE != null) return nodeNE;
+        if(isPaint && current.getNodeSE() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
+                    , isPaint, "", andDelete);
+        }
+        MXQuadNode nodeSE = searchLabel(current.getNodeSE(), stringLabel, andDelete, isPaint);
+        if(nodeSE != null) return nodeSE;
+        if(isPaint && current.getNodeSW() != null){
+            runAnimationSearch(current.getxPos(), current.getyPos()
+                    , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
+                    , isPaint, "", andDelete);
+        }
+        MXQuadNode nodeSW = searchLabel(current.getNodeSW(), stringLabel, andDelete, isPaint);
+        if(nodeSW != null) return nodeSW;
+        
+        return null;
+    }
+    
+    private MXQuadNode searchPoint(MXQuadNode current, Point point,boolean andDelete, boolean isPaint){
+        if(current == null) return null;
+        if(current.getPoint().equalPoint(point)){
+            if(isPaint){
+                multidimensionaldata.tree.process.Process.setNodeSearch(new InfoNode(current.getLabel(), current.getPoint()));
+            }
+            return current;
+        }
+        
+        int priority = positionChild(current.getPoint(), point);
+        
+        if(priority == 1){
+            if(isPaint && current.getNodeNW() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeNW().getxPos(), current.getNodeNW().getyPos()
+                        , isPaint, "", andDelete);
+            }
+            return searchPoint(current.getNodeNW(), point, andDelete, isPaint);
+        }
+        if(priority == 2){
+            if(isPaint && current.getNodeNE() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeNE().getxPos(), current.getNodeNE().getyPos()
+                        , isPaint, "", andDelete);
+            }
+            return searchPoint(current.getNodeNE(), point, andDelete, isPaint);
+        }
+        if(priority == 3){
+            if(isPaint && current.getNodeSE() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeSE().getxPos(), current.getNodeSE().getyPos()
+                        , isPaint, "", andDelete);
+            }
+            return searchPoint(current.getNodeSE(), point, andDelete, isPaint);
+        }
+        
+        if(isPaint && current.getNodeSW() != null){
+                runAnimationSearch(current.getxPos(), current.getyPos()
+                        , current.getNodeSW().getxPos(), current.getNodeSW().getyPos()
+                        , isPaint, "", andDelete);
+            }
+        return searchPoint(current.getNodeSW(), point, andDelete, isPaint);        
+    }
+    
+    private void runAnimationSearch(int xs, int ys, int xf, int yf
+            , boolean isLeave, String string, boolean andDelete){
+        int u1 = (xf - xs);
+        int u2 = (yf - ys);
+        
+        for(double t = 0.0; t <= 1.0; t+= 0.001){
+            int x = (int) (xs + t*u1);
+            int y = (int) (ys + t*u2);
+            multidimensionaldata.tree.process.Process.addPointSearch(new Point2D(x, y)); 
+        }
+        
+        if(!isLeave)
+        for(int i=0; i<100; i++){
+            multidimensionaldata.tree.process.Process.addPointSearch(new Point2D(xf, yf));
+        }
     }
 
     @Override
     public void searchLabelAndPaint(String label, boolean paint) {
-        
+        try{
+            searchLabel(this.root, label, false, paint)
+                    .setColor(COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
     }
 
     @Override
     public void searchPointAndPaint(Point point, boolean paint) {
-        
+        try{
+            searchPoint(this.root, point, false, paint)
+                    .setColor(COLOR.BACKGROUND_NODE_WHEN_CHOOSE.getColor());
+        }catch(NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
+        }
     }
 
     @Override
@@ -475,8 +606,14 @@ public class MXQuadTree extends Tree{
 
     private boolean checkPoint(MXQuadNode current, Point point) {
         if(current == null) return false;
-        if(current.getPoint().equalPoint(point)) return true;
+        if(current.getPoint().equalPoint(point) 
+                && !current.getLabel().equals(Words.EMPTY_NODE.getString())) return true;
+        
         int priority = positionChild(current.getPoint(), point);
+        
+        System.out.println(priority);
+        System.out.println(current.getLabel());
+        System.out.println(current.getNodeSE());
         
         if(priority == 1) return checkPoint(current.getNodeNW(), point);
         if(priority == 2) return checkPoint(current.getNodeNE(), point);

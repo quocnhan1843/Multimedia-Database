@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/Tree.java</file>
             <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/PointQuadTree.java</file>
+            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/KDimensionalTree.java</file>
             <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/MXQuadNode.java</file>
             <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/MXQuadTree.java</file>
-            <file>file:/D:/MyProject/Multimedia-Database/src/multidimensionaldata/tree/process/Process.java</file>
-            <file>file:/D:/MyProject/Multimedia-Database/src/UI/Dictionary.java</file>
         </group>
     </open-files>
 </project-private>
