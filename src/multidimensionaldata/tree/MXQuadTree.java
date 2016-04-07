@@ -261,7 +261,7 @@ public class MXQuadTree extends Tree{
         int i = xMin, j = yMin, a = power(2,k);
         int x = matrixQuadNode.getxVal(), y = matrixQuadNode.getyVal();
         if(this.root == null){
-            root = new MXQuadNode(Words.EMPTY_NODE.getString(), new Point(a/2,a/2) );
+            root = new MXQuadNode(Words.EMPTY_NODE.getString(), new Point( i + a/2, j + a/2) );
             root.setParent(root);
             root.setPos(12*3000+500, 50);
         }		
@@ -610,10 +610,6 @@ public class MXQuadTree extends Tree{
                 && !current.getLabel().equals(Words.EMPTY_NODE.getString())) return true;
         
         int priority = positionChild(current.getPoint(), point);
-        
-        System.out.println(priority);
-        System.out.println(current.getLabel());
-        System.out.println(current.getNodeSE());
         
         if(priority == 1) return checkPoint(current.getNodeNW(), point);
         if(priority == 2) return checkPoint(current.getNodeNE(), point);

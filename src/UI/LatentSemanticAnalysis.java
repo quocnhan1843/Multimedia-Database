@@ -6,23 +6,15 @@
 package UI;
 
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.ParseException;
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import multidimensionaldata.control.MultiDimensionalDataStructure;
+import latentsemanticindexing.control.StopWords;
 
 /**
  *
@@ -48,13 +40,18 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
+        comboBoxLang = new javax.swing.JComboBox();
         panelMain = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Latent Semantic Analysis");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxLang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "Tiếng việt" }));
+        comboBoxLang.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxLangItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -62,12 +59,12 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(1157, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(comboBoxLang, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
         panelMain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -106,6 +103,16 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboBoxLangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxLangItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getItem().equals("English")){
+            MultiDimensionalDataStructureUI.lang = 1;
+        }else{
+            MultiDimensionalDataStructureUI.lang = 2;
+        }
+        changeLang();
+    }//GEN-LAST:event_comboBoxLangItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -124,13 +131,14 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                new StopWords();
                 new LatentSemanticAnalysis().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox comboBoxLang;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelMain;
     // End of variables declaration//GEN-END:variables
@@ -156,6 +164,10 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     private void setComponent(){
         panelLeft.setBorder(BorderFactory.createLineBorder(Color.black));
         panelRight.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
+    private void changeLang() {
+        this.setTitle(Dictionary.Words.LATENT_SEMANTIC_ANALYSIS.getString());
     }
 
 }
