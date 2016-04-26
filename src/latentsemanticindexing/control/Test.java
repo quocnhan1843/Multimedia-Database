@@ -36,8 +36,8 @@ public class Test {
 //        }
         //String string = "Human machine interface for Lab ABC computer applications";
         //String string = "Banker machine interface for Lab ABC computer applications";
-        ///String string = "doctor is better than teacher good best less";
-        String string = "bad worse worst";
+        String string = "loving";
+        //String string = "bad worse worst";
         System.out.println(RemoveStopWord.getList(string));
         //System.out.println(TermWord.getTermWord("teacher"));
     }

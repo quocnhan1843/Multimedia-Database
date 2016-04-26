@@ -7,6 +7,7 @@ package UI;
 
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.text.ParseException;
 import javax.swing.BorderFactory;
@@ -14,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import latentsemanticindexing.control.ClassAnlysis;
 import latentsemanticindexing.control.StopWords;
+import latentsemanticindexing.control.WindowsUI;
 
 /**
  *
@@ -39,7 +42,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        topPanel = new javax.swing.JPanel();
         comboBoxLang = new javax.swing.JComboBox();
         panelMain = new javax.swing.JPanel();
 
@@ -53,17 +56,17 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topPanelLayout.createSequentialGroup()
                 .addContainerGap(1157, Short.MAX_VALUE)
                 .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(comboBoxLang, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
         );
 
@@ -87,14 +90,14 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(topPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -139,12 +142,13 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox comboBoxLang;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelMain;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
     private JPanel panelLeft;
-    private JPanel panelRight;
+    private JPanel panelRight;    
+    
     private void myInit() {
         init();
         setComponent();
@@ -157,8 +161,8 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     }
     
     private void init(){
-        panelLeft = new JPanel();
-        panelRight = new JPanel();        
+        panelLeft = new WindowsUI();
+        panelRight = new WindowsUI();
     }
     
     private void setComponent(){
@@ -168,6 +172,5 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
 
     private void changeLang() {
         this.setTitle(Dictionary.Words.LATENT_SEMANTIC_ANALYSIS.getString());
-    }
-
+    }    
 }

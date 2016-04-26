@@ -47,6 +47,19 @@ public class Dictionary{
             return stringVietnamese;
         }
     }
+    
+    public enum TYPE{
+        
+        NORMAL("Normal"), IF_IDF("IF*IDF"), IF_IDF_SVD("IF*IDF + SVD"), SVD("SVD");
+        
+        private String stringValue;
+        private TYPE(String str){
+            stringValue = str;
+        }
+        public String getString(){
+            return stringValue;
+        }
+    }
     public enum ERROR{
         ERROR("Error","Lỗi"), ERROR_LABEL_EXISTS("Label already exists","Nhãn đã tồn tại")
         , ERROR_POINT_EXISTS("Point already exists","Điểm đã tồn tại")
