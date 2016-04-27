@@ -16,7 +16,7 @@ import java.util.Vector;
  */
 public class StopWords {
     
-    Vector treeStopWord;
+    private static Vector treeStopWord;
     
     public StopWords(){
         init();
@@ -32,8 +32,9 @@ public class StopWords {
         try {
 
                 String stringCurrentLine;
-
-                br = new BufferedReader(new FileReader("D:\\MyProject\\Multimedia-Database\\lib\\stopword.txt"));
+                
+                br = new BufferedReader(new FileReader(ClassLoader
+                        .getSystemResource(".//resource//stopword.txt").getPath()));
 
                 while ((stringCurrentLine = br.readLine()) != null) {
                        addString(stringCurrentLine);
@@ -66,7 +67,7 @@ public class StopWords {
     public int size(){
         return treeStopWord.size();
     }
-    public boolean isStopWord(String string){
+    public static boolean isStopWord(String string){
         int id = 0;
         for(int i=0; i<string.length(); i++){
             char c = string.charAt(i);
