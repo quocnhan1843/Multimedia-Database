@@ -35,7 +35,8 @@ public class Dictionary{
         , SUCCESSFUL("Successful","Thành công"), INSERTING("Inserting new node","Đang thêm nút mới")
         , DELETING("Deleting node","Đang xóa nút"), SEARCHING("Searching node", "Đang tìm kiếm")
         , PLEASE_WAIT("Please wait...","Vui lòng đợi..."), MESSAGE("Massage", "Lời nhắn")
-        , NAME_KDIMENSIONALTREE("KD","KD"), NAME_POINTQUADTREE("PQ","PQ"), NAME_MATRIXQUADTREE("MQ","MQ");
+        , NAME_KDIMENSIONALTREE("KD","KD"), NAME_POINTQUADTREE("PQ","PQ"), NAME_MATRIXQUADTREE("MQ","MQ")
+        , EMPTY_NODE("EMPPTY","EMPTY");
         private String stringEnglish, stringVietnamese;
         private Words(String str1, String str2){
             stringEnglish = str1;
@@ -44,6 +45,19 @@ public class Dictionary{
         public String getString(){
             if(MultiDimensionalDataStructureUI.getLang() == 1) return stringEnglish;
             return stringVietnamese;
+        }
+    }
+    
+    public enum TYPE{
+        
+        NORMAL("Normal"), IF_IDF("IF*IDF"), IF_IDF_SVD("IF*IDF + SVD"), SVD("SVD");
+        
+        private String stringValue;
+        private TYPE(String str){
+            stringValue = str;
+        }
+        public String getString(){
+            return stringValue;
         }
     }
     public enum ERROR{
