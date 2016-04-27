@@ -9,7 +9,6 @@ import edu.mit.jwi.item.POS;
 import edu.mit.jwi.morph.WordnetStemmer;
 import edu.sussex.nlp.jws.JWS;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  *

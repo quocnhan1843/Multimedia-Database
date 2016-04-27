@@ -11,7 +11,7 @@ package latentsemanticindexing.control;
  */
 public class Frequency {
     public static Frequency instance = null;
-    public static Frequency getTable(){
+    public static Frequency getInstance(){
            if(instance == null) instance = new Frequency();
            return instance;
     }
