@@ -5,6 +5,7 @@
  */
 package latentsemanticindexing.control;
 
+import UI.Dictionary;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +46,7 @@ public class WindowsUI extends JPanel{
         this.topPanel.getComboBox().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                centerPanel = 
+                centerPanel = TableAnlysis.getWindows((Dictionary.TYPE) topPanel.getComboBox().getSelectedItem());
             }
         });
     }
