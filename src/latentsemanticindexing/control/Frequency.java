@@ -12,7 +12,13 @@ package latentsemanticindexing.control;
 public class Frequency {
     public static Frequency instance = null;
     public static Frequency getInstance(){
-           if(instance == null) instance = new Frequency();
-           return instance;
+        if(instance == null) instance = new Frequency();
+        return instance;
+    }
+    public void setTable(double[] vectorQuery, double[][] frequency){
+        
+    }
+    public double[][] getTable(){
+        return null;
     }
 }

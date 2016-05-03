@@ -36,7 +36,7 @@ public class Dictionary{
         , DELETING("Deleting node","Đang xóa nút"), SEARCHING("Searching node", "Đang tìm kiếm")
         , PLEASE_WAIT("Please wait...","Vui lòng đợi..."), MESSAGE("Massage", "Lời nhắn")
         , NAME_KDIMENSIONALTREE("KD","KD"), NAME_POINTQUADTREE("PQ","PQ"), NAME_MATRIXQUADTREE("MQ","MQ")
-        , EMPTY_NODE("EMPPTY","EMPTY");
+        , EMPTY_NODE("EMPPTY","EMPTY"), FAIL("Fail", "Thất bại");
         private String stringEnglish, stringVietnamese;
         private Words(String str1, String str2){
             stringEnglish = str1;
@@ -138,7 +138,8 @@ public class Dictionary{
         , BACKGROUND_NODE_WHEN_RUN(Color.decode("#f7fbfe"))
         , FOREGROUND_LABEL(Color.decode("#260DF6"))
         , BOX_NODE(Color.black), TEXT_NODE(Color.black)
-        , DEFAULT(Color.BLACK), BACKGROUND_SWAP(Color.decode("#6A0888"));
+        , DEFAULT(Color.BLACK), BACKGROUND_SWAP(Color.decode("#6A0888"))
+        , FAIL(Color.RED), SUCCESSFUL(Color.BLUE);
         private Color value;
         private COLOR(Color vl){
             value = vl;
