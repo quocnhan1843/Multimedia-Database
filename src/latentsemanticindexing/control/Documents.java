@@ -13,6 +13,8 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -224,6 +226,7 @@ public class Documents extends javax.swing.JFrame {
     
     private void addTermWord(String name, String text){
         Vector listTermWord = RemoveStopWord.getList(text);
+        HashMap map = new HashMap<String, Integer>();
         for(int i=0; i<listTermWord.size(); ++i){
             String word = (String) listTermWord.get(i);
             try {            
@@ -231,7 +234,35 @@ public class Documents extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
             }
+            if(map.containsKey(word)){
+                map.put(word, (int) map.get(word) + 1 );
+            }else{
+                map.put(word, 1 );
+            }
         }
+        String databaseName = getDatabaseName((String) comboBoxNameDocument.getSelectedItem());
+        for (Object e:map.keySet()){
+            setNumber(e.toString(), databaseName,  map.get(e.toString()));
+        }
+    }
+    
+    private String getIdTermWord(String word) throws Exception{
+        String sql = "select id from terms where word = '" + word + "'";
+        String databaseName = getDatabaseName((String) comboBoxNameDocument.getSelectedItem());
+        try {
+            ResultSet res = Data.getResultsetQuery(sql,databaseName );
+            if(res.next()){
+                return res.getString(1);
+            }
+            return "";
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+        }
+        return "";
+    }
+    
+    private void setNumber(String idDocument, String idTerm, Integer count, String nameDatabase){
+        
     }
     
     private void checkWord(String word) throws SQLException{
