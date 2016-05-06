@@ -8,9 +8,12 @@ package latentsemanticindexing.control;
 import Data.Data;
 import UI.Dictionary;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 /**
@@ -21,11 +24,18 @@ public class AddNewDocument extends javax.swing.JFrame {
 
     
     private JComboBox comboBox;
+    private static AddNewDocument instance = null;
     
-    
-    public AddNewDocument() {
+    public AddNewDocument(JComboBox comboBox) {
         this.comboBox = comboBox;
         initComponents();
+    }
+    
+    public static AddNewDocument getIntance(JComboBox comboBox){
+        if(instance == null){
+            instance = new AddNewDocument(comboBox);
+        }
+        return instance;
     }
 
     /**
@@ -51,6 +61,12 @@ public class AddNewDocument extends javax.swing.JFrame {
 
         labelNameCollection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         labelNameCollection.setText("Name Collection:");
+
+        textFieldNameCollection.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldNameCollectionKeyPressed(evt);
+            }
+        });
 
         buttonOke.setText("OK");
         buttonOke.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +116,17 @@ public class AddNewDocument extends javax.swing.JFrame {
 
     private void buttonOkeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkeActionPerformed
         // TODO add your handling code here:
+         addNew();
+    }//GEN-LAST:event_buttonOkeActionPerformed
+
+    private void textFieldNameCollectionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldNameCollectionKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            addNew();
+        }
+    }//GEN-LAST:event_textFieldNameCollectionKeyPressed
+    
+    private void addNew(){
         boolean ok = true;
         try {
             String nameDatabase = getNameDatabase();
@@ -108,16 +135,20 @@ public class AddNewDocument extends javax.swing.JFrame {
             String sql = "INSERT INTO information VALUES ('"
                     + nameDatabase + "','" + nameCollection + "');";
             
+            System.out.println(sql);
+            
             Data.setResultsetUpdate(sql, "lsi");
             ok = true;
-            
+            createDatabase(nameDatabase);
         } catch (Exception ex) {
+            ex.printStackTrace();
             ok = false;
             
         }finally{
             if(ok){
                 labelNotification.setForeground(Dictionary.COLOR.SUCCESSFUL.getColor());
                 labelNotification.setText(Dictionary.Words.SUCCESSFUL.getString() + ".");
+                textFieldNameCollection.setText("");
                 loadDataCollection();
             }else{
                 Toolkit.getDefaultToolkit().beep();
@@ -125,9 +156,11 @@ public class AddNewDocument extends javax.swing.JFrame {
                 labelNotification.setText(Dictionary.Words.NAME_COLLECTION_ALREADY_EXISTS.getString() + ".");
             }
         }
+    }
+    
+    private void createDatabase(String databaseName){
         
-    }//GEN-LAST:event_buttonOkeActionPerformed
-
+    }
     
 
     private String getNameDatabase() throws Exception {
@@ -139,9 +172,9 @@ public class AddNewDocument extends javax.swing.JFrame {
         String id = "001";
         while(res.next()){
             String name = res.getString(1);
-            id = getID(name.substring(8));
+            id = getID(name.substring(10));
         }
-        return "document" + id;
+        return "collection" + id;
     }
     
     private String getID(String stringCurrentID){
@@ -157,16 +190,19 @@ public class AddNewDocument extends javax.swing.JFrame {
     private void loadDataCollection(){
         
         try{
-        
-            comboBox.removeAllItems();
-
             String sql = "select name_collection from information";
 
             ResultSet res = Data.getResultsetQuery(sql, "lsi");
+            
+            Vector listCollection = new Vector();
+            
             while(res.next()){
-                comboBox.addItem(res.getString(1));
+                listCollection.addElement(res.getString(1));
+                //comboBox.addItem(res.getString(1));
             }
-            comboBox.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
+            //comboBox.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
+            listCollection.addElement(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
+            comboBox.setModel(new DefaultComboBoxModel(listCollection));
         }catch(Exception ex){
             
         }

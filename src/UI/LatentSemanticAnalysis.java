@@ -171,6 +171,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
 
     private void buttonAddQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddQueryActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_buttonAddQueryActionPerformed
 
     private void comboBoxCollectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCollectionActionPerformed

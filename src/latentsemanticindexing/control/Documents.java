@@ -7,10 +7,12 @@ package latentsemanticindexing.control;
 
 import Data.Data;
 import UI.Dictionary;
+import com.sun.javafx.geom.Vec2d;
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.text.ParseException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -159,23 +161,32 @@ public class Documents extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDoneActionPerformed
-    // TODO add your handling code here:
-        
-        boolean confirm = true;
-        try{
+        try {
             String name = textName.getText();
             String text = textAreaText.getText();
+            addDocument(name, text);
+            addTermWord(name, text);
+        } catch (Exception ex) {
+        }
+    }//GEN-LAST:event_buttonDoneActionPerformed
+
+    private void addDocument(String name, String text) throws Exception{
+        boolean confirm = true;
+        try{
+            
             
             if(name.isEmpty() || text.isEmpty()){
+                textConfirm.setText("Khong duoc bo trong");
                 throw new Exception();
             }
 
             String sql = "INSERT INTO documents VALUES (null, '" 
                         + name + "', '" + text + "');";
-
-            Data.setResultsetUpdate(sql, comboBoxNameDocument.getSelectedItem().toString());
+            String collectionName = (String) comboBoxNameDocument.getSelectedItem();
+            String databaseName = getDatabaseName(collectionName);
+            Data.setResultsetUpdate(sql, databaseName );
         }catch(Exception ex){
-            ex.getMessage();
+            ex.printStackTrace();
             confirm = false;
             
         }finally{
@@ -192,12 +203,50 @@ public class Documents extends javax.swing.JFrame {
                         +Dictionary.Words.FAIL.getString());
             }
         }
-    }//GEN-LAST:event_buttonDoneActionPerformed
-
+    }
+    
+    private String getDatabaseName(String collectionName){
+        String sql = "select name_database from information where name_collection = '"
+                + collectionName + "'";
+        try{
+            ResultSet res =  Data.getResultsetQuery(sql, "lsi");
+            res.next();
+            return res.getString(1);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    private void addTermWord(String name, String text){
+        Vector listTermWord = RemoveStopWord.getList(text);
+        for(int i=0; i<listTermWord.size(); ++i){
+            String word = (String) listTermWord.get(i);
+            checkWord(word);
+            
+            
+        }
+    }
+    
+    private void checkWord(String word){
+        String sql = "select top 1 word from terms";
+        ResultSet res;
+        try {
+            res = Data.getResultsetQuery(sql, comboBoxNameDocument.getSelectedItem().toString());
+            if(res.next()){
+                return;
+            }
+            sql = "INSERT INTO terms VALUES (null, '" + word + "')";
+        } catch (Exception ex) {
+        }
+        
+    }
+    
     private void comboBoxNameDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxNameDocumentActionPerformed
         // TODO add your handling code here:
-        if(comboBoxNameDocument.getSelectedIndex() == comboBoxNameDocument.getItemCount() - 1){
-            new AddNewDocument(comboBoxNameDocument).setVisible(true);
+        if(comboBoxNameDocument.getSelectedIndex() == comboBoxNameDocument.getItemCount() - 1 
+                && comboBoxNameDocument.getSelectedIndex() > 0){
+                AddNewDocument.getIntance(comboBoxNameDocument).setVisible(true);
         }
     }//GEN-LAST:event_comboBoxNameDocumentActionPerformed
     
