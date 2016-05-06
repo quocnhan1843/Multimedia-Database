@@ -5,39 +5,16 @@
  */
 package latentsemanticindexing.control;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 /**
  *
  * @author ASUS
  */
 public class Test {
     public static void main(String[] args) {
-        new StopWords();
-//        try {
-//            //System.out.println(stopword.size());
-//            BufferedReader br = new BufferedReader(
-//                    new FileReader(ClassLoader
-//                        .getSystemResource(".//resource//stopword.txt").getPath()));
-//            String stringCurrentLine = "";
-//            while ((stringCurrentLine = br.readLine()) != null) {
-//                if(StopWords.isStopWord(stringCurrentLine))
-//                    System.out.println(stringCurrentLine + " is stop word");
-//                else
-//                    System.out.println(stringCurrentLine + " is not stop word");
-//            }
-//        } catch (FileNotFoundException ex) {
-//        } catch(IOException iOException){
-//        } catch(NullPointerException nullPointerException){
-//            nullPointerException.printStackTrace();
-//        }
-        //String string = "Human machine interface for Lab ABC computer applications";
-        //String string = "Banker machine interface for Lab ABC computer applications";
-        String string = "loving";
-        //String string = "bad worse worst";
+        StopWords.createStopWords();
+
+        //String string = "loving";
+        String string = "bad worse worst";
         System.out.println(RemoveStopWord.getList(string));
         //System.out.println(TermWord.getTermWord("teacher"));
     }

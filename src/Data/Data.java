@@ -18,10 +18,12 @@ import java.sql.Statement;
 public class Data {
     private static Connection con = null;
 
-    public Data() {
+    private static void createData(String nameDatabase) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/document_example?user=root&password=&characterEncoding=utf-8&useUnicode=true");
+            String connectString = "jdbc:mysql://localhost:3306/"+ nameDatabase 
+                    + "?user=root&password=&characterEncoding=utf-8&useUnicode=true";
+            con = DriverManager.getConnection(connectString);
             //System.out.println("Ket noi OK");
         } catch (ClassNotFoundException ex) {
             //System.out.println("Không tìm thấy driver");
@@ -29,18 +31,16 @@ public class Data {
             //System.out.println("Không kết nối được cơ sở dữ liệu!");
         }
     }
-    public static synchronized void createConnection(){
-        if(con == null){
-            new Data();
-        }
+    public static synchronized void createConnection(String nameDatabase){
+        createData(nameDatabase);
     }
-    public static ResultSet getResultsetQuery(String sql) throws Exception{
-        createConnection();
+    public static ResultSet getResultsetQuery(String sql, String nameDatabase) throws Exception{
+        createConnection(nameDatabase);
         Statement cmd = con.createStatement();
         return cmd.executeQuery(sql);        
     }
-    public static void getResultsetUpdate(String sql) throws SQLException{
-        createConnection();
+    public static void setResultsetUpdate(String sql, String nameDatabase) throws SQLException{
+        createConnection(nameDatabase);
         Statement cmd = con.createStatement();
         cmd.executeUpdate(sql);
         

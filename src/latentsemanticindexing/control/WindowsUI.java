@@ -46,7 +46,7 @@ public class WindowsUI extends JPanel{
         this.topPanel.getComboBox().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                centerPanel = TableAnlysis.getWindows((Dictionary.TYPE) topPanel.getComboBox().getSelectedItem());
+                centerPanel = TableAnlysis.getWindows(topPanel.getComboBox().getSelectedItem().toString());
             }
         });
     }

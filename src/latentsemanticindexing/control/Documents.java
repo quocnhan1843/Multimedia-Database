@@ -7,8 +7,14 @@ package latentsemanticindexing.control;
 
 import Data.Data;
 import UI.Dictionary;
+import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -19,8 +25,30 @@ public class Documents extends javax.swing.JFrame {
     /**
      * Creates new form Documents
      */
-    public Documents() {
+    
+    private static Documents instance = null;
+    
+    public Documents() throws Exception {
         initComponents();
+        loadDocumentNames();
+    }
+    
+    public void loadDocumentNames() throws Exception{
+        
+        comboBoxNameDocument.removeAllItems();
+        
+        String sql = "select name_collection from information";
+        
+        ResultSet res = Data.getResultsetQuery(sql, "lsi");
+        while(res.next()){
+            comboBoxNameDocument.addItem(res.getString(1));
+        }
+        comboBoxNameDocument.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
+    }
+    
+    public static Documents getInstance() throws Exception{
+        if(instance == null) instance = new Documents();
+        return instance;
     }
 
     /**
@@ -39,6 +67,8 @@ public class Documents extends javax.swing.JFrame {
         buttonDone = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         textConfirm = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        comboBoxNameDocument = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,7 +80,7 @@ public class Documents extends javax.swing.JFrame {
         textName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Name:");
+        jLabel1.setText("Name Document:");
 
         buttonDone.setText("DONE");
         buttonDone.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +95,16 @@ public class Documents extends javax.swing.JFrame {
 
         textConfirm.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Choose Document:");
+
+        comboBoxNameDocument.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxNameDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxNameDocumentActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -72,17 +112,24 @@ public class Documents extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(textName))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(textConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonDone)))
-                .addContainerGap())
+                        .addComponent(textConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                        .addGap(8, 8, 8)
+                        .addComponent(buttonDone)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboBoxNameDocument, 0, 317, Short.MAX_VALUE)
+                                    .addComponent(textName))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,6 +137,10 @@ public class Documents extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(comboBoxNameDocument, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -109,27 +160,47 @@ public class Documents extends javax.swing.JFrame {
 
     private void buttonDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDoneActionPerformed
     // TODO add your handling code here:
+        
+        boolean confirm = true;
         try{
             String name = textName.getText();
             String text = textAreaText.getText();
+            
+            if(name.isEmpty() || text.isEmpty()){
+                throw new Exception();
+            }
 
             String sql = "INSERT INTO documents VALUES (null, '" 
                         + name + "', '" + text + "');";
 
-            Data.getResultsetUpdate(sql);
-            
-            textConfirm.setForeground(Dictionary.COLOR.SUCCESSFUL.getColor());
-            textConfirm.setText(Dictionary.Words.INSERT.getString() + " "
-                    +Dictionary.Words.SUCCESSFUL.getString());
+            Data.setResultsetUpdate(sql, comboBoxNameDocument.getSelectedItem().toString());
         }catch(Exception ex){
             ex.getMessage();
-            Toolkit.getDefaultToolkit().beep();
-            textConfirm.setForeground(Dictionary.COLOR.FAIL.getColor());
-            textConfirm.setText(Dictionary.Words.INSERT.getString() + " " 
-                    +Dictionary.Words.FAIL.getString());
+            confirm = false;
+            
+        }finally{
+            if(confirm){
+                textConfirm.setForeground(Dictionary.COLOR.SUCCESSFUL.getColor());
+                textConfirm.setText(Dictionary.Words.INSERT.getString() + " "
+                        +Dictionary.Words.SUCCESSFUL.getString());
+
+                clearComponent();
+            }else{
+                Toolkit.getDefaultToolkit().beep();
+                textConfirm.setForeground(Dictionary.COLOR.FAIL.getColor());
+                textConfirm.setText(Dictionary.Words.INSERT.getString() + " " 
+                        +Dictionary.Words.FAIL.getString());
+            }
         }
     }//GEN-LAST:event_buttonDoneActionPerformed
 
+    private void comboBoxNameDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxNameDocumentActionPerformed
+        // TODO add your handling code here:
+        if(comboBoxNameDocument.getSelectedIndex() == comboBoxNameDocument.getItemCount() - 1){
+            new AddNewDocument(comboBoxNameDocument).setVisible(true);
+        }
+    }//GEN-LAST:event_comboBoxNameDocumentActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -140,38 +211,37 @@ public class Documents extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Documents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Documents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Documents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Documents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new SyntheticaBlueLightLookAndFeel());
+        } catch (ParseException | UnsupportedLookAndFeelException ex) {
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Documents().setVisible(true);
+                try {
+                    new Documents().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Documents.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonDone;
+    private javax.swing.JComboBox<String> comboBoxNameDocument;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea textAreaText;
     private javax.swing.JLabel textConfirm;
     private javax.swing.JTextField textName;
     // End of variables declaration//GEN-END:variables
+
+    private void clearComponent() {
+        textAreaText.setText("");
+        textName.setText("");
+    }
 }

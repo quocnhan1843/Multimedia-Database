@@ -16,7 +16,7 @@ public class TableAnlysis extends JPanel{
     
     
     
-    public static JPanel getWindows(Dictionary.TYPE type){
+    public static JPanel getWindows(String type){
         return null;
     }
     

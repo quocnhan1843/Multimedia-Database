@@ -29,10 +29,10 @@ public class ClassAnlysis extends JPanel{
     }
 
     private void addItem() {
-        comboBox.addItem(Dictionary.TYPE.NORMAL.getString());
-        comboBox.addItem(Dictionary.TYPE.IF_IDF.getString());
-        comboBox.addItem(Dictionary.TYPE.SVD.getString());
-        comboBox.addItem(Dictionary.TYPE.IF_IDF_SVD.getString());
+        comboBox.addItem( (String) Dictionary.TYPE.NORMAL.getString());
+        comboBox.addItem( (String) Dictionary.TYPE.IF_IDF.getString());
+        comboBox.addItem( (String) Dictionary.TYPE.SVD.getString());
+        comboBox.addItem( (String) Dictionary.TYPE.IF_IDF_SVD.getString());
     }
     
     public JComboBox getComboBox(){

@@ -17,6 +17,7 @@ import java.util.Vector;
 public class StopWords {
     
     private static Vector treeStopWord;
+    private static StopWords instance;
     
     public StopWords(){
         init();
@@ -26,20 +27,21 @@ public class StopWords {
         treeStopWord = new Vector();
         treeStopWord.addElement(new Node());
     }
+    public static void createStopWords(){
+        if(instance == null) instance = new StopWords();
+    }
     private void createList(){
         BufferedReader br = null;
 
         try {
+            String stringCurrentLine;
 
-                String stringCurrentLine;
-                
-                br = new BufferedReader(new FileReader(ClassLoader
-                        .getSystemResource(".//resource//stopword.txt").getPath()));
+            br = new BufferedReader(new FileReader(ClassLoader
+                    .getSystemResource(".//resource//stopword.txt").getPath()));
 
-                while ((stringCurrentLine = br.readLine()) != null) {
-                       addString(stringCurrentLine);
-                }
-
+            while ((stringCurrentLine = br.readLine()) != null) {
+                   addString(stringCurrentLine);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } 
