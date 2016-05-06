@@ -11,6 +11,7 @@ import com.sun.javafx.geom.Vec2d;
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ public class Documents extends javax.swing.JFrame {
     public Documents() throws Exception {
         initComponents();
         loadDocumentNames();
+        StopWords.createStopWords();
     }
     
     public void loadDocumentNames() throws Exception{
@@ -72,7 +74,8 @@ public class Documents extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         comboBoxNameDocument = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         textAreaText.setColumns(20);
         textAreaText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -93,7 +96,7 @@ public class Documents extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("DOCUMENT");
+        jLabel2.setText("DOCUMENT MANAGEMENT");
 
         textConfirm.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -167,6 +170,7 @@ public class Documents extends javax.swing.JFrame {
             addDocument(name, text);
             addTermWord(name, text);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_buttonDoneActionPerformed
 
@@ -222,13 +226,15 @@ public class Documents extends javax.swing.JFrame {
         Vector listTermWord = RemoveStopWord.getList(text);
         for(int i=0; i<listTermWord.size(); ++i){
             String word = (String) listTermWord.get(i);
-            checkWord(word);
-            
-            
+            try {            
+                checkWord(word);
+            } catch (SQLException ex) {
+                //ex.printStackTrace();
+            }
         }
     }
     
-    private void checkWord(String word){
+    private void checkWord(String word) throws SQLException{
         String sql = "select top 1 word from terms";
         ResultSet res;
         try {
@@ -236,8 +242,10 @@ public class Documents extends javax.swing.JFrame {
             if(res.next()){
                 return;
             }
-            sql = "INSERT INTO terms VALUES (null, '" + word + "')";
         } catch (Exception ex) {
+            sql = "INSERT INTO terms VALUES (null, '" + word + "')";
+            Data.setResultsetUpdate(sql, comboBoxNameDocument.getSelectedItem().toString());
+            //ex.printStackTrace();
         }
         
     }
@@ -246,7 +254,7 @@ public class Documents extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(comboBoxNameDocument.getSelectedIndex() == comboBoxNameDocument.getItemCount() - 1 
                 && comboBoxNameDocument.getSelectedIndex() > 0){
-                AddNewDocument.getIntance(comboBoxNameDocument).setVisible(true);
+                AddNewCollection.getIntance(comboBoxNameDocument).setVisible(true);
         }
     }//GEN-LAST:event_comboBoxNameDocumentActionPerformed
     

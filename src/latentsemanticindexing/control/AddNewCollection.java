@@ -20,20 +20,20 @@ import javax.swing.JComboBox;
  *
  * @author quocn
  */
-public class AddNewDocument extends javax.swing.JFrame {
+public class AddNewCollection extends javax.swing.JFrame {
 
     
     private JComboBox comboBox;
-    private static AddNewDocument instance = null;
+    private static AddNewCollection instance = null;
     
-    public AddNewDocument(JComboBox comboBox) {
+    public AddNewCollection(JComboBox comboBox) {
         this.comboBox = comboBox;
         initComponents();
     }
     
-    public static AddNewDocument getIntance(JComboBox comboBox){
+    public static AddNewCollection getIntance(JComboBox comboBox){
         if(instance == null){
-            instance = new AddNewDocument(comboBox);
+            instance = new AddNewCollection(comboBox);
         }
         return instance;
     }
@@ -54,6 +54,7 @@ public class AddNewDocument extends javax.swing.JFrame {
         labelNotification = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         labelAddNewCollection.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         labelAddNewCollection.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -159,7 +160,7 @@ public class AddNewDocument extends javax.swing.JFrame {
     }
     
     private void createDatabase(String databaseName){
-        
+        Data.createDatabase(databaseName);
     }
     
 

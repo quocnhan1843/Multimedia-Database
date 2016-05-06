@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +45,14 @@ public class Data {
         createConnection(nameDatabase);
         Statement cmd = con.createStatement();
         cmd.executeUpdate(sql);
-        
+    }
+    public static void createDatabase(String databaseName){
+        try { 
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=");
+            Statement statement = conn.createStatement();
+            int Result=statement.executeUpdate("CREATE DATABASE " + databaseName);
+        } catch (SQLException ex) {
+            
+        }
     }
 }
