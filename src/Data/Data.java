@@ -55,4 +55,8 @@ public class Data {
             
         }
     }
+    
+    public static void printSQL(String sql){
+        System.out.println(sql);
+    }
 }

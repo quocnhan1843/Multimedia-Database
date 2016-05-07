@@ -44,6 +44,7 @@ public class RemoveStopWord {
                 word += string.charAt(i);
             }
         }
+        word = word.replaceAll("\\s+", "");
         if(!word.equals("")) vectorWord.add(word);
         return vectorWord;
     }

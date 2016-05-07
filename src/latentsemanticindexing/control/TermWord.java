@@ -81,7 +81,12 @@ public class TermWord {
     }
     
     private static String getWordTerm(List<String> list){
-        if(list.size() == 0) return "";
-        return list.get(0);
+        try{
+            if(list.size() == 0) return "";
+            return list.get(0);
+        }catch(NullPointerException ex){
+            return "";
+        }
+        
     }
 }

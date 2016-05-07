@@ -224,7 +224,7 @@ public class Documents extends javax.swing.JFrame {
         return null;
     }
     
-    private void addTermWord(String name, String text){
+    private void addTermWord(String name, String text) throws Exception{
         Vector listTermWord = RemoveStopWord.getList(text);
         HashMap map = new HashMap<String, Integer>();
         for(int i=0; i<listTermWord.size(); ++i){
@@ -242,8 +242,27 @@ public class Documents extends javax.swing.JFrame {
         }
         String databaseName = getDatabaseName((String) comboBoxNameDocument.getSelectedItem());
         for (Object e:map.keySet()){
-            setNumber(e.toString(), databaseName,  map.get(e.toString()));
+            Integer count = (Integer) map.get(e.toString());
+            String idTermWord = getIDTermWord(e.toString(), databaseName);
+            String idDocument = getIDDocument(name, databaseName);
+            setNumber(idDocument, idTermWord , count, databaseName);
         }
+    }
+    
+    private String getIDTermWord(String wordString, String databaseName) throws Exception{
+        String sql = "select id from terms where word = '" + wordString + "'";
+        
+        ResultSet res = Data.getResultsetQuery(sql, databaseName);
+        res.next();
+        return res.getString(1);
+    }
+    
+    private String getIDDocument(String nameString, String databaseName) throws Exception{
+        String sql = "select id from documents where name = '" + nameString + "'";
+        
+        ResultSet res = Data.getResultsetQuery(sql, databaseName);
+        res.next();
+        return res.getString(1);
     }
     
     private String getIdTermWord(String word) throws Exception{
@@ -261,8 +280,11 @@ public class Documents extends javax.swing.JFrame {
         return "";
     }
     
-    private void setNumber(String idDocument, String idTerm, Integer count, String nameDatabase){
+    private void setNumber(String idDocument, String idTerm, Integer count, String databaseName) throws SQLException{
+        String sql = "insert into term_document(id_term, id_document, count) value ('"
+                + idTerm + "','" + idDocument + "','" + count + "')";
         
+        Data.setResultsetUpdate(sql, databaseName);
     }
     
     private void checkWord(String word) throws SQLException{
