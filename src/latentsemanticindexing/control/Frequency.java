@@ -5,20 +5,87 @@
  */
 package latentsemanticindexing.control;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author quocn
  */
-public class Frequency {
-    public static Frequency instance = null;
-    public static Frequency getInstance(){
-        if(instance == null) instance = new Frequency();
-        return instance;
+public class Frequency extends NoName{
+    private JTable table;
+    private JScrollPane scrollPane;
+    
+    public Frequency(){
+        //super();
+        init();
     }
-    public void setTable(double[] vectorQuery, double[][] frequency){
+
+    private void init() {
+        table = new JTable(4,4);
         
+        setScrollPane();
+        
+        this.setLayout(new GridLayout(1, 1));
+        this.add(scrollPane);
+        
+        this.setBorder(BorderFactory.createLineBorder(Color.red));
     }
-    public double[][] getTable(){
-        return null;
+
+    private void setScrollPane() {
+        scrollPane = new JScrollPane(table
+                , JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+                , JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }    
+
+    @Override
+    public void loadTable(List<DataDocument> listIdDocument, List listIdTermWord, String databaseName) {
+        
+        double[][] arr = new double[listIdDocument.size()][listIdTermWord.size()];
+        int sz = 0;
+        
+        for(DataDocument idDocument: listIdDocument){
+            Vector vec = new Vector();
+            for(Object idTermWord:listIdTermWord){
+                String id= idTermWord.toString();
+                if(!id.equals("0")){
+                    double num = getNumber(id,idDocument, databaseName);
+                    vec.add(num);
+                }
+            }
+            for(int i=0; i<vec.size(); i++){
+                arr[sz][i] = Double.valueOf(vec.get(i).toString());
+            }
+            sz++;
+        }
+        
+        for(int i=0; i<arr.length; i++){
+            for(int j = 0; j<arr[i].length; i++){
+                System.out.print(arr[i][j] + " - ");
+            }
+            System.out.println("");
+        }
     }
+
+    private double getNumber(String id, DataDocument idDocument, String databaseName) {
+        String sql = "select count from term_document where id_term = '"
+                   + id + "' and id_document = '" + idDocument + "'";
+        try{
+            ResultSet res = Data.Data.getResultsetQuery(sql, databaseName);
+            if(res.next()){
+                return res.getDouble(1);
+            }
+        }catch(Exception ex){
+            return 0;
+        }
+        return 0;
+    }
+    
+    
 }

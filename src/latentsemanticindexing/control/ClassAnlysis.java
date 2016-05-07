@@ -38,4 +38,7 @@ public class ClassAnlysis extends JPanel{
     public JComboBox getComboBox(){
         return this.comboBox;
     }
+    public String getType(){
+        return comboBox.getSelectedItem().toString();
+    }
 }

@@ -7,14 +7,12 @@ package latentsemanticindexing.control;
 
 import Data.Data;
 import UI.Dictionary;
-import com.sun.javafx.geom.Vec2d;
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,8 +64,8 @@ public class Documents extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        labelTitile = new javax.swing.JLabel();
+        tabDelete = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         textName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -82,9 +80,9 @@ public class Documents extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("DOCUMENT MANAGEMENT");
+        labelTitile.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelTitile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitile.setText("DOCUMENT MANAGEMENT");
 
         textName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -139,7 +137,7 @@ public class Documents extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Add", jPanel1);
+        tabDelete.addTab("Add", jPanel1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -152,7 +150,7 @@ public class Documents extends javax.swing.JFrame {
             .addGap(0, 392, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Remove", jPanel2);
+        tabDelete.addTab("Remove", jPanel2);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Choose Document:");
@@ -172,10 +170,10 @@ public class Documents extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelTitile, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1)
+                        .addComponent(tabDelete)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
@@ -188,13 +186,13 @@ public class Documents extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTitile, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(comboBoxNameDocument, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -378,12 +376,12 @@ public class Documents extends javax.swing.JFrame {
     private javax.swing.JButton buttonDone;
     private javax.swing.JComboBox<String> comboBoxNameDocument;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel labelTitile;
+    private javax.swing.JTabbedPane tabDelete;
     private javax.swing.JTextArea textAreaText;
     private javax.swing.JLabel textConfirm;
     private javax.swing.JTextField textName;

@@ -6,10 +6,17 @@
 
 package latentsemanticindexing.control;
 
+import java.util.List;
+
 /**
  *
  * @author quocn
  */
-public class IF_IDF {
+public class IF_IDF extends NoName{
+
+    @Override
+    public void loadTable(List listIdDocument, List listIdTermWord, String databaseName) {
+        
+    }
 
 }

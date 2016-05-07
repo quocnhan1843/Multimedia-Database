@@ -11,29 +11,36 @@ package latentsemanticindexing.control;
  */
 public class CosinDistance {
     
-    private double[] tableFrequency;
-    private double[] vectorQuery;
-
-    public CosinDistance() {
-    }    
-    public CosinDistance(double[] vector, double[] table){
-        for(int i=0; i<vector.length; ++i){
-            vectorQuery[i] = vector[i];
-            tableFrequency[i] = table[i];
-        }
+    private static double[] tableFrequency;// = new double[];
+    private static double[] vectorQuery;
+   
+    public static double getDistance(double[] vector, double[] table){
+        
+//        for(int i=0; i<vector.length; ++i){
+//            vectorQuery[i] = vector[i];
+//            tableFrequency[i] = table[i];
+//        }
+            tableFrequency = table;
+            vectorQuery = vector;
+        
+            double tuso = getNumerator();
+            double mau1 = Math.sqrt(calculate(vectorQuery));
+            double mau2 = Math.sqrt(calculate(tableFrequency));
+            
+            System.out.println("Tuso = " + tuso);
+            System.out.println("Mau1 = " + mau1);
+            System.out.println("Mau2 = " + mau2);
+            
+        return tuso/(mau1*mau2);
     }
-    public double getDistance(){
-        return Math.sqrt(getNumerator())/(Math.sqrt(calculate(vectorQuery))
-                *Math.sqrt(calculate(tableFrequency)));
-    }
-    private double getNumerator(){
+    private static double getNumerator(){
         return calculate(vectorQuery, tableFrequency);
     }
     
-    private double getDenominator(){
+    private static double getDenominator(){
         return calculate(vectorQuery)*calculate(tableFrequency);
     }
-    private double calculate(double[] arr){
+    private static double calculate(double[] arr){
         double result = 0.0;
         for(int i=0; i<arr.length; ++i){
             result += arr[i]*arr[i];
@@ -41,14 +48,14 @@ public class CosinDistance {
         return result;
     }
     
-    private double calculate(double[] vector, double[] frequency){
+    private static double calculate(double[] vector, double[] frequency){
         double result = 0.0;
         for(int i=0; i<vector.length; ++i){
             result += tich(vector[i], frequency[i]);
         }
         return result;
     }
-     private double tich(double a, double b){
+     private static double tich(double a, double b){
         return a*b;
     }
     

@@ -5,10 +5,18 @@
  */
 package latentsemanticindexing.control;
 
+import java.util.List;
+
 /**
  *
  * @author quocn
  */
-public class SVD {
+public class SVD extends NoName{
+
+    @Override
+    public void loadTable(List listIdDocument, List listIdTermWord, String databaseName) {
+        
+    }
+
     
 }

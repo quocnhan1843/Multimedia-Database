@@ -16,7 +16,7 @@ public class RemoveStopWord {
     
     private static char[] listStopChar = {'\''};
     
-    public static Vector getList(String string){
+    public static Vector getList(String string){        
         string = string.toLowerCase();
         
         Vector vectorWord = getListWord(string);
@@ -25,6 +25,7 @@ public class RemoveStopWord {
             String word = (String) vectorWord.get(i);
             if(!StopWords.isStopWord(word)){
                 String s = TermWord.getTermWord(word);
+                if(s.isEmpty()) s = word;
                 vectorResult.addElement(s);
             }
         }
@@ -46,7 +47,7 @@ public class RemoveStopWord {
                 word += string.charAt(i);
             }
         }
-        word = word.replaceAll("\\s+", "");
+        word = word.replaceAll(" ", "");
         if(!word.equals("")) vectorWord.add(word);
         return vectorWord;
     }
