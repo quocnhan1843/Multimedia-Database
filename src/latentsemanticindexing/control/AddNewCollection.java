@@ -10,6 +10,7 @@ import UI.Dictionary;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,8 +137,6 @@ public class AddNewCollection extends javax.swing.JFrame {
             String sql = "INSERT INTO information VALUES ('"
                     + nameDatabase + "','" + nameCollection + "');";
             
-            System.out.println(sql);
-            
             Data.setResultsetUpdate(sql, "lsi");
             ok = true;
             createDatabase(nameDatabase);
@@ -161,6 +160,29 @@ public class AddNewCollection extends javax.swing.JFrame {
     
     private void createDatabase(String databaseName){
         Data.createDatabase(databaseName);
+        String createDocument = "CREATE TABLE documents(id int NOT NULL AUTO_INCREMENT,"
+                + "name varchar(500) NOT NULL, text text "
+                + "CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL, "
+                + "PRIMARY KEY (id), UNIQUE(name));";
+        
+        String createTermWord = "CREATE TABLE terms (" +
+                                "id int NOT NULL AUTO_INCREMENT," +
+                                "word varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL" +
+                                ", PRIMARY KEY (id), UNIQUE(word));";
+        String createTerm_Document = "CREATE TABLE term_document (\n" +
+                                    "id_term int(11) NOT NULL," +
+                                    "id_document int(11) NOT NULL," +
+                                    "count int(11) NOT NULL," +
+                                    "tf_idf double NOT NULL,CONSTRAINT pk_id PRIMARY KEY (id_term, id_document)," +                
+                                    "CONSTRAINT con_document FOREIGN KEY (id_document) REFERENCES documents(id)," +
+                                    "CONSTRAINT con_term FOREIGN KEY (id_term) REFERENCES terms(id)," + 
+                                    "CONSTRAINT unique_key UNIQUE(id_term, id_document));";
+        try {
+            Data.setResultsetUpdate(createDocument, databaseName);
+            Data.setResultsetUpdate(createTermWord, databaseName);
+            Data.setResultsetUpdate(createTerm_Document, databaseName);
+        } catch (SQLException ex) {
+        }
     }
     
 
