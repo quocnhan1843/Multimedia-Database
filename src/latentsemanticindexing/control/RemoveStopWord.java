@@ -38,6 +38,8 @@ public class RemoveStopWord {
         String word = "";
         for(int i=0; i<string.length(); ++i){
             if(!validChar(string.charAt(i))){
+                word = word.replaceAll(" ", "");
+                if(!word.equals("")) vectorWord.add(word);
                 vectorWord.addElement(word);
                 word = "";
             }else{
