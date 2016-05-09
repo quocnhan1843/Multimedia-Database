@@ -18,22 +18,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author quocn
  */
-public class Documents extends javax.swing.JFrame {
+public class DocumentsManagement extends javax.swing.JFrame {
 
     /**
-     * Creates new form Documents
+     * Creates new form DocumentsManagement
      */
     
-    private static Documents instance = null;
+    private static DocumentsManagement instance = null;
     
-    public Documents() throws Exception {
+    public DocumentsManagement() throws Exception {
         initComponents();
         loadDocumentNames();
+        loadDocumentsData();
         StopWords.createStopWords();
     }
     
@@ -50,8 +53,8 @@ public class Documents extends javax.swing.JFrame {
         comboBoxNameDocument.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
     }
     
-    public static Documents getInstance() throws Exception{
-        if(instance == null) instance = new Documents();
+    public static DocumentsManagement getInstance() throws Exception{
+        if(instance == null) instance = new DocumentsManagement();
         return instance;
     }
 
@@ -66,14 +69,17 @@ public class Documents extends javax.swing.JFrame {
 
         labelTitile = new javax.swing.JLabel();
         tabDelete = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        tabManagement = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableDocuments = new javax.swing.JTable();
+        tabAdd = new javax.swing.JPanel();
         textName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaText = new javax.swing.JTextArea();
         buttonDone = new javax.swing.JButton();
         textConfirm = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        tabRemove = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         comboBoxNameDocument = new javax.swing.JComboBox<>();
 
@@ -83,6 +89,46 @@ public class Documents extends javax.swing.JFrame {
         labelTitile.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         labelTitile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTitile.setText("DOCUMENT MANAGEMENT");
+
+        tableDocuments.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableDocuments.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Name", "Text"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableDocuments);
+        if (tableDocuments.getColumnModel().getColumnCount() > 0) {
+            tableDocuments.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
+
+        javax.swing.GroupLayout tabManagementLayout = new javax.swing.GroupLayout(tabManagement);
+        tabManagement.setLayout(tabManagementLayout);
+        tabManagementLayout.setHorizontalGroup(
+            tabManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+        );
+        tabManagementLayout.setVerticalGroup(
+            tabManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabManagementLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabDelete.addTab("Documents", tabManagement);
 
         textName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
@@ -103,54 +149,54 @@ public class Documents extends javax.swing.JFrame {
 
         textConfirm.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout tabAddLayout = new javax.swing.GroupLayout(tabAdd);
+        tabAdd.setLayout(tabAddLayout);
+        tabAddLayout.setHorizontalGroup(
+            tabAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabAddLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(tabAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tabAddLayout.createSequentialGroup()
                         .addComponent(textConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonDone))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(tabAddLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textName))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        tabAddLayout.setVerticalGroup(
+            tabAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabAddLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(tabAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(tabAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(buttonDone)
                     .addComponent(textConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        tabDelete.addTab("Add", jPanel1);
+        tabDelete.addTab("Add New", tabAdd);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout tabRemoveLayout = new javax.swing.GroupLayout(tabRemove);
+        tabRemove.setLayout(tabRemoveLayout);
+        tabRemoveLayout.setHorizontalGroup(
+            tabRemoveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 532, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        tabRemoveLayout.setVerticalGroup(
+            tabRemoveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 392, Short.MAX_VALUE)
         );
 
-        tabDelete.addTab("Remove", jPanel2);
+        tabDelete.addTab("Remove", tabRemove);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Choose Document:");
@@ -364,9 +410,9 @@ public class Documents extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Documents().setVisible(true);
+                    new DocumentsManagement().setVisible(true);
                 } catch (Exception ex) {
-                    Logger.getLogger(Documents.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DocumentsManagement.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -377,11 +423,14 @@ public class Documents extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxNameDocument;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelTitile;
+    private javax.swing.JPanel tabAdd;
     private javax.swing.JTabbedPane tabDelete;
+    private javax.swing.JPanel tabManagement;
+    private javax.swing.JPanel tabRemove;
+    private javax.swing.JTable tableDocuments;
     private javax.swing.JTextArea textAreaText;
     private javax.swing.JLabel textConfirm;
     private javax.swing.JTextField textName;
@@ -390,5 +439,22 @@ public class Documents extends javax.swing.JFrame {
     private void clearComponent() {
         textAreaText.setText("");
         textName.setText("");
+    }
+
+    private void loadDocumentsData() {
+        String sql = "select name, text from documents";
+        String databaseName = getDatabaseName(comboBoxNameDocument.getSelectedItem().toString());
+        DefaultTableModel model = (DefaultTableModel) tableDocuments.getModel();
+        model.getDataVector().removeAllElements();
+        try {
+            ResultSet res = Data.getResultsetQuery(sql, databaseName);
+            while(res.next()){
+                Vector vector = new Vector();
+                vector.add(res.getString(1));
+                vector.add(res.getString(2));
+                model.addRow(vector);
+            }
+        } catch (Exception ex) {
+        }
     }
 }

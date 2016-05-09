@@ -27,10 +27,6 @@ public class CosinDistance {
             double mau1 = Math.sqrt(calculate(vectorQuery));
             double mau2 = Math.sqrt(calculate(tableFrequency));
             
-            System.out.println("Tuso = " + tuso);
-            System.out.println("Mau1 = " + mau1);
-            System.out.println("Mau2 = " + mau2);
-            
         return tuso/(mau1*mau2);
     }
     private static double getNumerator(){

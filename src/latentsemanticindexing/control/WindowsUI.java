@@ -5,10 +5,10 @@
  */
 package latentsemanticindexing.control;
 
-import UI.Dictionary;
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class WindowsUI extends JPanel{
     
     private ClassAnlysis topPanel;
-    private JPanel centerPanel;
+    private NoName centerPanel;
     
     public WindowsUI(){
         init();
@@ -30,24 +30,29 @@ public class WindowsUI extends JPanel{
     
     private void init(){
         topPanel = new ClassAnlysis();
-        centerPanel = new JPanel();
+        centerPanel = NoName.createPanel(topPanel.getType());
     }
     
     private void setLayout(){
-        this.setLayout(new GridLayout(2, 1));
+        //this.setLayout(new GridLayout(2, 1));
+        this.setLayout(new BorderLayout());
     }
     
     private void setComponent(){
-        this.add(topPanel);
-        this.add(centerPanel);
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
     }
     
     private void setListener(){
         this.topPanel.getComboBox().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                centerPanel = TableAnlysis.getWindows(topPanel.getComboBox().getSelectedItem().toString());
+                centerPanel = (NoName) TableAnlysis.getWindows(topPanel.getComboBox().getSelectedItem().toString());
             }
         });
+    }
+    
+    public void loadTable(List listIdDocument, List listIdTermWord, String databaseName){
+         centerPanel.loadTable(listIdDocument, listIdTermWord, databaseName);
     }
 }

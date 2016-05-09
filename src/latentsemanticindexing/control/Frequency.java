@@ -50,10 +50,15 @@ public class Frequency extends NoName{
         double[][] arr = new double[listIdDocument.size()][listIdTermWord.size()];
         int sz = 0;
         
+        Data.Data.printSQL("Frequency 53");
+        Data.Data.printSQL(String.valueOf(listIdDocument.size()));
         for(DataDocument idDocument: listIdDocument){
+            System.out.println(idDocument);
             Vector vec = new Vector();
             for(Object idTermWord:listIdTermWord){
                 String id= idTermWord.toString();
+                Data.Data.printSQL("Frequency 59");
+                Data.Data.printSQL(id);
                 if(!id.equals("0")){
                     double num = getNumber(id,idDocument, databaseName);
                     vec.add(num);
@@ -65,12 +70,16 @@ public class Frequency extends NoName{
             sz++;
         }
         
+        Data.Data.printSQL("Frequency 73");
+        Data.Data.printSQL(String.valueOf(arr.length));
         for(int i=0; i<arr.length; i++){
-            for(int j = 0; j<arr[i].length; i++){
-                System.out.print(arr[i][j] + " - ");
+            for(int j = 0; j<arr[i].length; j++){
+                System.out.print(arr[i][j] + " = ");
             }
             System.out.println("");
         }
+        
+        Data.Data.printSQL("Frequency 82");
     }
 
     private double getNumber(String id, DataDocument idDocument, String databaseName) {

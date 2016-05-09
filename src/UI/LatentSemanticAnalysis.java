@@ -9,7 +9,7 @@ import Data.Data;
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.lang.invoke.MethodHandles;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -17,18 +17,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import latentsemanticindexing.control.AddQuery;
 import latentsemanticindexing.control.DataDocument;
-import latentsemanticindexing.control.Documents;
+import latentsemanticindexing.control.DocumentsManagement;
 import latentsemanticindexing.control.StopWords;
 import latentsemanticindexing.control.WindowsUI;
 
@@ -45,6 +41,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     //private String nameDocument = null;
     
     public LatentSemanticAnalysis() {
+        startMySQL();
         initComponents();
         myInit();
         loadData();
@@ -166,7 +163,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     private void buttonAddDocumentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddDocumentsActionPerformed
         try {
             // TODO add your handling code here:
-            Documents.getInstance().setVisible(true);
+            DocumentsManagement.getInstance().setVisible(true);
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_buttonAddDocumentsActionPerformed
@@ -315,19 +312,35 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     }
 
     private List getListIDDocument() {
-        String sql = "select id, name from document";
+        String sql = "select id, name from documents";
+        String databaseName = getDatabaseName((String) comboBoxCollection.getSelectedItem());
         List list = new ArrayList();
         try{
             ResultSet rs = Data.getResultsetQuery(sql
-                    , getDatabaseName((String) comboBoxCollection.getSelectedItem()));
+                    , databaseName);
             
             while(rs.next()){
                 String id = rs.getString(1);
                 String name = rs.getString(2);
+                
+                Data.printSQL("LSA 325");
+                System.out.println("id = " + id);
+                System.out.println("name = " + name);
+                
                 list.add(new DataDocument(id, name));
             }
         }catch(Exception ex){
         }
         return list;
+    }
+
+    private void startMySQL() {
+        try {
+            String commandStart = "C:/xampp/mysql/bin/mysqld";
+            Process mysqlProc = Runtime.getRuntime().exec(commandStart);
+            //System.out.println("MySQL server started successfully!");
+        } catch (IOException e) {
+            //System.out.println("Start thất bại");
+        }
     }
 }
