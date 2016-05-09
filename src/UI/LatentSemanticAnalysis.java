@@ -323,10 +323,6 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
                 String id = rs.getString(1);
                 String name = rs.getString(2);
                 
-                Data.printSQL("LSA 325");
-                System.out.println("id = " + id);
-                System.out.println("name = " + name);
-                
                 list.add(new DataDocument(id, name));
             }
         }catch(Exception ex){

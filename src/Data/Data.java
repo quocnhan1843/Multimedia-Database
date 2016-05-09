@@ -57,6 +57,7 @@ public class Data {
     }
     
     public static void printSQL(String sql){
+        System.out.println("Data Printer");
         System.out.println(sql);
     }
 }

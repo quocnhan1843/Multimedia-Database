@@ -9,6 +9,8 @@ import Data.Data;
 import UI.Dictionary;
 import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -16,10 +18,12 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -108,6 +112,11 @@ public class DocumentsManagement extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableDocuments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableDocumentsMouseReleased(evt);
             }
         });
         jScrollPane2.setViewportView(tableDocuments);
@@ -389,7 +398,28 @@ public class DocumentsManagement extends javax.swing.JFrame {
                 && comboBoxNameDocument.getSelectedIndex() > 0){
                 AddNewCollection.getIntance(comboBoxNameDocument).setVisible(true);
         }
+        loadDocumentsData();
     }//GEN-LAST:event_comboBoxNameDocumentActionPerformed
+
+    private void tableDocumentsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDocumentsMouseReleased
+        // TODO add your handling code here:
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem itemXoa = new JMenuItem(Dictionary.Words.DELETE.getString());
+        
+        popupMenu.add(itemXoa);
+        
+
+        itemXoa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
+        if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
+            popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tableDocumentsMouseReleased
     
     /**
      * @param args the command line arguments
@@ -454,7 +484,11 @@ public class DocumentsManagement extends javax.swing.JFrame {
                 vector.add(res.getString(2));
                 model.addRow(vector);
             }
+            tableDocuments.revalidate();
         } catch (Exception ex) {
+                ex.printStackTrace();
+                model.getDataVector().removeAllElements();
+                tableDocuments.revalidate();
         }
     }
 }
