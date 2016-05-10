@@ -308,7 +308,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
             res.next();
             return res.getString(1);
         }catch(Exception ex){
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         return null;
     }
@@ -323,10 +323,12 @@ public class DocumentsManagement extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 //ex.printStackTrace();
             }
+           // System.out.println(word + "------");
             if(map.containsKey(word)){
+             //   System.out.println(word +" = " + map.get(word));
                 map.put(word, (int) map.get(word) + 1 );
             }else{
-                map.put(word, 1 );
+                map.put(word, 1);
             }
         }
         String databaseName = getDatabaseName((String) comboBoxCollection.getSelectedItem());

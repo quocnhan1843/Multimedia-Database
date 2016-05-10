@@ -25,7 +25,7 @@ public class RemoveStopWord {
             String word = (String) vectorWord.get(i);
             if(!StopWords.isStopWord(word)){
                 String s = TermWord.getTermWord(word);
-                if(s.isEmpty()) s = word;
+                if(s.equals("")) s = word;
                 vectorResult.addElement(s);
             }
         }
@@ -41,7 +41,7 @@ public class RemoveStopWord {
             if(!validChar(string.charAt(i))){
                 word = word.replaceAll(" ", "");
                 if(!word.equals("")) vectorWord.add(word);
-                vectorWord.addElement(word);
+                //vectorWord.addElement(word);
                 word = "";
             }else{
                 word += string.charAt(i);

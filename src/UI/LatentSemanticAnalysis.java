@@ -25,6 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import latentsemanticindexing.control.AddNewCollection;
 import latentsemanticindexing.control.AddQuery;
 import latentsemanticindexing.control.DataDocument;
+import latentsemanticindexing.control.DataTermWord;
 import latentsemanticindexing.control.DocumentsManagement;
 import latentsemanticindexing.control.StopWords;
 import latentsemanticindexing.control.WindowsUI;
@@ -62,6 +63,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         buttonAddDocuments = new javax.swing.JButton();
         buttonAddQuery = new javax.swing.JButton();
         comboBoxCollection = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         panelMain = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,6 +100,13 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/refresh.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
         topPanelLayout.setHorizontalGroup(
@@ -108,19 +117,23 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
                 .addComponent(buttonAddQuery)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 537, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 510, Short.MAX_VALUE)
                 .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonAddDocuments)
                     .addComponent(buttonAddQuery)
-                    .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 5, Short.MAX_VALUE))
+                    .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelMain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -133,7 +146,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGap(0, 493, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,6 +203,11 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboBoxCollectionActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        loadData();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,6 +237,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
     private javax.swing.JButton buttonAddQuery;
     private javax.swing.JComboBox<String> comboBoxCollection;
     private javax.swing.JComboBox comboBoxLang;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
@@ -285,11 +304,12 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         List listIDDocument = getListIDDocument();
         String databaseName = getDatabaseName((String) comboBoxCollection.getSelectedItem());
         for(Object tr: treeSet){
-            listIDTermWord.add(getIDTermWord(tr.toString()
-                    , databaseName));
+            listIDTermWord.add(new DataTermWord(getIDTermWord(tr.toString()
+                    , databaseName), tr.toString()) );
         }
         
-        panelLeft.loadTable(listIDDocument, listIDTermWord, databaseName);
+        panelLeft.loadTable(listIDDocument, listIDTermWord, map, databaseName);
+        panelRight.loadTable(listIDDocument, listIDTermWord, map, databaseName);
     }
     
     private String[] getWordInDocument(){

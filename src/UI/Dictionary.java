@@ -77,6 +77,18 @@ public class Dictionary{
             return stringVietnamese;
         }
     }
+    public enum MESSAGE{
+        NAME_NOT_EMPTY("You must enter a name document!", "Bạn phải điền tên tài liều!");
+        private String stringEnglish, stringVietnamese;
+        private MESSAGE(String str1, String str2){
+            stringEnglish = str1;
+            stringVietnamese = str2;
+        }
+        public String getString(){
+            if(MultiDimensionalDataStructureUI.getLang() == 1) return stringEnglish;
+            return stringVietnamese;
+        }
+    }
     public enum CONFIRM{
         DETELE_TREE("Do you want to delete this tree?","Bạn muốn xóa cây này không?")
         , DETELE_AND_CREATE_TREE("Do you want to delete this tree and create new tree?","Bạn muốn xóa cây này và tạo cây mới?")

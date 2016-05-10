@@ -6,6 +6,7 @@
 package latentsemanticindexing.control;
 
 import UI.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -29,5 +30,7 @@ public abstract class NoName extends JPanel{
         return new SVD();
     }
     
-    public abstract void loadTable(List<DataDocument> listIdDocument, List listIdTermWord, String databaseName);
+    public abstract void loadTable(List<DataDocument> listIdDocument, 
+            List<DataTermWord>  listIdTermWord, HashMap listWordQR,
+            String databaseName);
 }

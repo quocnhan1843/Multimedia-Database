@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -127,6 +128,14 @@ public class AddNewCollection extends javax.swing.JFrame {
     }//GEN-LAST:event_textFieldNameCollectionKeyPressed
     
     private void addNew(){
+        
+        if(textFieldNameCollection.getText().isEmpty()){
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, Dictionary.MESSAGE.NAME_NOT_EMPTY.getString()
+                    , Dictionary.ERROR.ERROR.getString(), JOptionPane.ERROR_MESSAGE );
+            return;
+        }
+        
         boolean ok = true;
         try {
             String nameDatabase = getNameDatabase();
@@ -170,8 +179,9 @@ public class AddNewCollection extends javax.swing.JFrame {
         String createTerm_Document = "CREATE TABLE term_document (\n" +
                                     "id_term int(11) NOT NULL," +
                                     "id_document int(11) NOT NULL," +
-                                    "count int(11) NOT NULL," +
-                                    "tf_idf double NOT NULL,CONSTRAINT pk_id PRIMARY KEY (id_term, id_document)," +                
+                                    "count int(11) NOT NULL default 0," +
+                                    "tf_idf double NOT NULL default 0.0, " +
+                                    "CONSTRAINT pk_id PRIMARY KEY (id_term, id_document)," +
                                     "CONSTRAINT con_document FOREIGN KEY (id_document) REFERENCES documents(id)," +
                                     "CONSTRAINT con_term FOREIGN KEY (id_term) REFERENCES terms(id)," + 
                                     "CONSTRAINT unique_key UNIQUE(id_term, id_document));";

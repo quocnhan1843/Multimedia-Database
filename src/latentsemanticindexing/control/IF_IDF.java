@@ -6,6 +6,7 @@
 
 package latentsemanticindexing.control;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,8 +16,10 @@ import java.util.List;
 public class IF_IDF extends NoName{
 
     @Override
-    public void loadTable(List listIdDocument, List listIdTermWord, String databaseName) {
-        
+    public void loadTable(List<DataDocument> listIdDocument, List<DataTermWord> listIdTermWord, HashMap listWordQR, String databaseName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
 
 }

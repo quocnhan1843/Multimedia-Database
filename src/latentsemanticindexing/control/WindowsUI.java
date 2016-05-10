@@ -8,6 +8,7 @@ package latentsemanticindexing.control;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -51,7 +52,11 @@ public class WindowsUI extends JPanel{
         });
     }
     
-    public void loadTable(List listIdDocument, List listIdTermWord, String databaseName){
-         centerPanel.loadTable(listIdDocument, listIdTermWord, databaseName);
+    public void loadTable(List listIdDocument, List listIdTermWord, HashMap listWordQR, String databaseName){
+        try{
+         centerPanel.loadTable(listIdDocument, listIdTermWord, listWordQR, databaseName);
+        }catch(NullPointerException ex){
+            ex.printStackTrace();
+        }
     }
 }

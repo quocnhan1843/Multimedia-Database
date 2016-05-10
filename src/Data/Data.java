@@ -53,6 +53,15 @@ public class Data {
             
         }
     }
+    public static void dropDatabase(String databaseName){
+        try { 
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=");
+            Statement statement = conn.createStatement();
+            int Result=statement.executeUpdate("DROP DATABASE " + databaseName);
+        } catch (SQLException ex) {
+            
+        }
+    }
     
     public static void printSQL(String sql){
         System.out.println("Data Printer");
