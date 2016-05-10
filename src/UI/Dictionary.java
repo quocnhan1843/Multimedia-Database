@@ -37,7 +37,9 @@ public class Dictionary{
         , PLEASE_WAIT("Please wait...","Vui lòng đợi..."), MESSAGE("Massage", "Lời nhắn")
         , NAME_KDIMENSIONALTREE("KD","KD"), NAME_POINTQUADTREE("PQ","PQ"), NAME_MATRIXQUADTREE("MQ","MQ")
         , EMPTY_NODE("EMPPTY","EMPTY"), FAIL("Fail", "Thất bại"), ADD_NEW_DOCUMENT("Add","Thêm")
-        , NAME_COLLECTION_ALREADY_EXISTS("Name collection already exists","Tên bộ sưu tập đã tồn tại");
+        , NAME_COLLECTION_ALREADY_EXISTS("Name collection already exists","Tên bộ sưu tập đã tồn tại")
+        , SCORE("Score", "Điểm"), TEXT("Text", "Văn bản"), NAME_DOCUMENT("Name document", "Tên tài liệu")
+        , VIEW("View","Xem");
         private String stringEnglish, stringVietnamese;
         private Words(String str1, String str2){
             stringEnglish = str1;

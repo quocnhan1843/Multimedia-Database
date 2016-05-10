@@ -64,6 +64,7 @@ public class AddQuery extends javax.swing.JFrame {
         });
 
         textAreaQuery.setColumns(20);
+        textAreaQuery.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         textAreaQuery.setRows(5);
         jScrollPane1.setViewportView(textAreaQuery);
 

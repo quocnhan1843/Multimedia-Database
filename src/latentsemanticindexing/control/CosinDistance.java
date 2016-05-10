@@ -16,16 +16,21 @@ public class CosinDistance {
    
     public static double getDistance(double[] vector, double[] table){
         
-//        for(int i=0; i<vector.length; ++i){
-//            vectorQuery[i] = vector[i];
-//            tableFrequency[i] = table[i];
-//        }
-            tableFrequency = table;
-            vectorQuery = vector;
         
-            double tuso = getNumerator();
-            double mau1 = Math.sqrt(calculate(vectorQuery));
-            double mau2 = Math.sqrt(calculate(tableFrequency));
+        tableFrequency = table;
+        vectorQuery = vector;
+
+//        for(int i=0; i<vector.length; ++i){
+////                vectorQuery[i] = vector[i];
+////                tableFrequency[i] = table[i];
+//
+//            System.out.println(vectorQuery[i]);
+//            System.out.println(tableFrequency[i]);
+//        }
+
+        double tuso = getNumerator();
+        double mau1 = Math.sqrt(calculate(vectorQuery));
+        double mau2 = Math.sqrt(calculate(tableFrequency));
             
         return tuso/(mau1*mau2);
     }

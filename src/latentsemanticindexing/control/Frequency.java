@@ -6,19 +6,25 @@
 package latentsemanticindexing.control;
 
 import UI.Dictionary;
-import com.aliasi.xml.XHtmlWriter;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -41,6 +47,7 @@ public class Frequency extends NoName{
     public Frequency(){
         //super();
         init();
+        addLis();
     }
 
     private void init() {
@@ -89,6 +96,7 @@ public class Frequency extends NoName{
                 , JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
                 , JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         tableStep2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
     }  
 
     @Override
@@ -140,7 +148,14 @@ public class Frequency extends NoName{
             }
         }
         
+        
         addTblRow(tableStep1, v);
+        Vector v2 = new Vector();
+        for(int i=1; i<v.size(); i++){
+            v2.addElement(v.get(i));
+        }
+        
+        setTableStep2(arr, v2, listIdDocument, databaseName);
     }
 
     private double getNumber(String id, DataDocument idDocument, String databaseName) {
@@ -190,5 +205,94 @@ public class Frequency extends NoName{
     private void loadTabName() {
         this.tabbedPane.setTitleAt(0, "Step 1");
         this.tabbedPane.setTitleAt(1, "Step 2");
+    }
+    
+    private void setTableStep2(double[][] arr, Vector v, List<DataDocument> listIdDocument, String databaseName) {
+        delAllCol(tableStep2);
+        addTblCol(tableStep2, Dictionary.Words.SCORE.getString());
+        addTblCol(tableStep2, Dictionary.Words.NAME_DOCUMENT.getString());
+        addTblCol(tableStep2, Dictionary.Words.TEXT.getString());
+        
+        loadSizeTable2();
+        
+        double[] vectroQuery = new double[v.size()];
+        
+        for(int i=0; i<v.size(); ++i){
+            vectroQuery[i] = (double) v.get(i);
+        }
+        DefaultTableModel model = (DefaultTableModel) tableStep2.getModel();
+        
+        for(int i=0; i<arr.length; ++i){
+            double num = CosinDistance.getDistance(vectroQuery, arr[i]);
+            
+            Vector<Object> vt = new Vector<>();
+            vt.addElement(num);
+            vt.addElement(listIdDocument.get(i).getName());
+            vt.addElement(getText(listIdDocument.get(i).getId(), databaseName));
+            
+            model.addRow(vt);
+        }
+        
+        tableStep2.revalidate();
+    }
+
+    private String getText(String id, String databaseName) {
+        String sql = "select text from documents where id = '" + id + "';";
+        String ans = "";
+        try {
+            ResultSet res = Data.Data.getResultsetQuery(sql, databaseName);
+            res.next();
+            ans = res.getString(1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return ans;
+    }
+
+    private void addLis() {
+        tableStep2.addMouseListener(new java.awt.event.MouseAdapter() {
+            
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                JPopupMenu popupMenu = new JPopupMenu();
+            JMenuItem itemView = new JMenuItem(Dictionary.Words.VIEW.getString());
+
+            popupMenu.add(itemView);
+
+
+            itemView.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try{
+                        int row = tableStep2.getSelectedRow();
+
+                        String text = tableStep2.getModel().getValueAt(row, 2).toString();
+                        String name = tableStep2.getModel().getValueAt(row, 1).toString();;
+
+                        JDialog dialog = new JDialog();
+                        dialog.setTitle(name);
+                        dialog.setModal(true);
+                        dialog.setContentPane(new JScrollPane(new JTextArea(text)));
+                        dialog.setSize(700, 500);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setVisible(true);
+                        dialog.setFont(new Font(Dictionary.Font.DEFAULT.getString()
+                                ,Font.PLAIN , 30));
+                    }catch(Exception ex){}
+                }
+            });
+
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
+                popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+            }
+        });
+    }
+    
+    private void loadSizeTable2(){
+        tableStep2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableStep2.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tableStep2.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tableStep2.getColumnModel().getColumn(2).setPreferredWidth(5000);
     }
 }
