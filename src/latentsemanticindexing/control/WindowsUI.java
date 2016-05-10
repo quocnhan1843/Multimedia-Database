@@ -24,8 +24,7 @@ public class WindowsUI extends JPanel{
         init();
         setLayout();
         setComponent();
-        setListener();
-        
+        setListener();        
     }
     
     private void init(){

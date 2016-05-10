@@ -64,13 +64,14 @@ public class Frequency extends NoName{
             }
             sz++;
         }
-        
+        System.out.print("\t");
         for(Object ob:listIdTermWord){
             String sql = "select word from terms where id = '" + ob.toString() + "'";
             try{
                 ResultSet res = Data.Data.getResultsetQuery(sql, databaseName);
                 while(res.next()){
-                     System.out.print(res.getString(1) + "\t");
+                    String term = res.getString(1);
+                    System.out.print(term.substring(0, Math.min(5, term.length())) + "\t");
                 }
             }catch(Exception ex){
                 ex.printStackTrace();
@@ -80,6 +81,7 @@ public class Frequency extends NoName{
         System.out.println("");
         
         for(int i=0; i<arr.length; i++){
+            System.out.print(listIdDocument.get(i).getName() + "\t");
             for(int j = 0; j<arr[i].length; j++){
                 System.out.print(arr[i][j] + "\t");
             }

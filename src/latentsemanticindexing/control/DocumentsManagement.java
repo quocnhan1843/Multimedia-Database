@@ -46,15 +46,15 @@ public class DocumentsManagement extends javax.swing.JFrame {
     
     public void loadDocumentNames() throws Exception{
         
-        comboBoxNameDocument.removeAllItems();
+        comboBoxCollection.removeAllItems();
         
         String sql = "select name_collection from information";
         
         ResultSet res = Data.getResultsetQuery(sql, "lsi");
         while(res.next()){
-            comboBoxNameDocument.addItem(res.getString(1));
+            comboBoxCollection.addItem(res.getString(1));
         }
-        comboBoxNameDocument.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
+        comboBoxCollection.addItem(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
     }
     
     public static DocumentsManagement getInstance() throws Exception{
@@ -85,7 +85,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
         textConfirm = new javax.swing.JLabel();
         tabRemove = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        comboBoxNameDocument = new javax.swing.JComboBox<>();
+        comboBoxCollection = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -210,10 +210,10 @@ public class DocumentsManagement extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Choose Document:");
 
-        comboBoxNameDocument.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboBoxNameDocument.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxCollection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxCollection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxNameDocumentActionPerformed(evt);
+                comboBoxCollectionActionPerformed(evt);
             }
         });
 
@@ -234,7 +234,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBoxNameDocument, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboBoxCollection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -245,7 +245,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(comboBoxNameDocument, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -277,7 +277,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
 
             String sql = "INSERT INTO documents VALUES (null, '" 
                         + name + "', '" + text + "');";
-            String collectionName = (String) comboBoxNameDocument.getSelectedItem();
+            String collectionName = (String) comboBoxCollection.getSelectedItem();
             String databaseName = getDatabaseName(collectionName);
             Data.setResultsetUpdate(sql, databaseName );
         }catch(Exception ex){
@@ -329,7 +329,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
                 map.put(word, 1 );
             }
         }
-        String databaseName = getDatabaseName((String) comboBoxNameDocument.getSelectedItem());
+        String databaseName = getDatabaseName((String) comboBoxCollection.getSelectedItem());
         for (Object e:map.keySet()){
             Integer count = (Integer) map.get(e.toString());
             String idTermWord = getIDTermWord(e.toString(), databaseName);
@@ -356,7 +356,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
     
     private String getIdTermWord(String word) throws Exception{
         String sql = "select id from terms where word = '" + word + "'";
-        String databaseName = getDatabaseName((String) comboBoxNameDocument.getSelectedItem());
+        String databaseName = getDatabaseName((String) comboBoxCollection.getSelectedItem());
         try {
             ResultSet res = Data.getResultsetQuery(sql,databaseName );
             if(res.next()){
@@ -380,26 +380,26 @@ public class DocumentsManagement extends javax.swing.JFrame {
         String sql = "select top 1 word from terms";
         ResultSet res;
         try {
-            res = Data.getResultsetQuery(sql, comboBoxNameDocument.getSelectedItem().toString());
+            res = Data.getResultsetQuery(sql, comboBoxCollection.getSelectedItem().toString());
             if(res.next()){
                 return;
             }
         } catch (Exception ex) {
             sql = "INSERT INTO terms VALUES (null, '" + word + "')";
-            Data.setResultsetUpdate(sql, comboBoxNameDocument.getSelectedItem().toString());
+            Data.setResultsetUpdate(sql, comboBoxCollection.getSelectedItem().toString());
             //ex.printStackTrace();
         }
         
     }
     
-    private void comboBoxNameDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxNameDocumentActionPerformed
+    private void comboBoxCollectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCollectionActionPerformed
         // TODO add your handling code here:
-        if(comboBoxNameDocument.getSelectedIndex() == comboBoxNameDocument.getItemCount() - 1 
-                && comboBoxNameDocument.getSelectedIndex() > 0){
-                AddNewCollection.getIntance(comboBoxNameDocument).setVisible(true);
+        if(comboBoxCollection.getSelectedIndex() == comboBoxCollection.getItemCount() - 1 
+                && comboBoxCollection.getSelectedIndex() > 0){
+                AddNewCollection.getIntance(comboBoxCollection).setVisible(true);
         }
         loadDocumentsData();
-    }//GEN-LAST:event_comboBoxNameDocumentActionPerformed
+    }//GEN-LAST:event_comboBoxCollectionActionPerformed
 
     private void tableDocumentsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDocumentsMouseReleased
         // TODO add your handling code here:
@@ -450,7 +450,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonDone;
-    private javax.swing.JComboBox<String> comboBoxNameDocument;
+    private javax.swing.JComboBox<String> comboBoxCollection;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -473,7 +473,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
 
     private void loadDocumentsData() {
         String sql = "select name, text from documents";
-        String databaseName = getDatabaseName(comboBoxNameDocument.getSelectedItem().toString());
+        String databaseName = getDatabaseName(comboBoxCollection.getSelectedItem().toString());
         DefaultTableModel model = (DefaultTableModel) tableDocuments.getModel();
         model.getDataVector().removeAllElements();
         try {

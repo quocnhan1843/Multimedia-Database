@@ -22,6 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import latentsemanticindexing.control.AddNewCollection;
 import latentsemanticindexing.control.AddQuery;
 import latentsemanticindexing.control.DataDocument;
 import latentsemanticindexing.control.DocumentsManagement;
@@ -89,7 +90,13 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             }
         });
 
+        comboBoxCollection.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboBoxCollection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxCollection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCollectionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -100,18 +107,20 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonAddQuery)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 626, Short.MAX_VALUE)
+                .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 537, Short.MAX_VALUE)
                 .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(buttonAddDocuments)
-                .addComponent(buttonAddQuery)
-                .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBoxLang, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonAddDocuments)
+                    .addComponent(buttonAddQuery)
+                    .addComponent(comboBoxCollection, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         panelMain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -172,6 +181,14 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         // TODO add your handling code here:
         new AddQuery(this).setVisible(true);
     }//GEN-LAST:event_buttonAddQueryActionPerformed
+
+    private void comboBoxCollectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCollectionActionPerformed
+        // TODO add your handling code here:
+        if(comboBoxCollection.getSelectedIndex() == comboBoxCollection.getItemCount() - 1 
+                && comboBoxCollection.getSelectedIndex() > 0){
+                AddNewCollection.getIntance(comboBoxCollection).setVisible(true);
+        }
+    }//GEN-LAST:event_comboBoxCollectionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,6 +265,8 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
         }catch(Exception ex){
             ex.printStackTrace();
         }
+        if(com.getSize() == 0) com.addElement("");
+        com.addElement(Dictionary.Words.ADD_NEW_DOCUMENT.getString() + "...");
         this.comboBoxCollection.setModel(com);
     }
 
@@ -336,7 +355,7 @@ public class LatentSemanticAnalysis extends javax.swing.JFrame {
             Process mysqlProc = Runtime.getRuntime().exec(commandStart);
             //System.out.println("MySQL server started successfully!");
         } catch (IOException e) {
-            //System.out.println("Start thất bại");
+            System.out.println("Start thất bại");
         }
     }
 }
