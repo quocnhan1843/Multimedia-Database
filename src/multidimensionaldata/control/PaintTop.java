@@ -37,7 +37,14 @@ public class PaintTop extends JPanel implements Runnable{
         
         this.w = MultiDimensionalDataStructure.getTopWidth();
         s = tree.getName();
-        
+//        if(s.equals(Dictionary.Words.NAME_KDIMENSIONALTREE.getString())){
+//            s = Dictionary.Words.K_DIMENSIONNAL_TREE.getString();
+//        }else if(s.equals(Dictionary.Words.NAME_POINTQUADTREE.getString())){
+//            s = Dictionary.Words.POINT_QUADTREE.getString();
+//        }else{
+//            s = Dictionary.Words.MATRIX_QUADTREE.getString();
+//        }
+//        s = s.toUpperCase();
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
