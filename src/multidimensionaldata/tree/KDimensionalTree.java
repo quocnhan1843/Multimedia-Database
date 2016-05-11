@@ -130,8 +130,8 @@ public class KDimensionalTree extends Tree{
                 Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
-            if(this.root != null)
-                updatePositionNode(this.root,this.root.getxPos(), this.root.getyPos());
+//            if(this.root != null)
+//                updatePositionNode(this.root,this.root.getxPos(), this.root.getyPos());
         }catch(NullPointerException nullPointerException){
             
         }
@@ -152,8 +152,8 @@ public class KDimensionalTree extends Tree{
                 Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
-            if(this.root != null)
-                updatePositionNode(this.root, this.root.getxPos(), this.root.getyPos());
+//            if(this.root != null)
+//                updatePositionNode(this.root, this.root.getxPos(), this.root.getyPos());
         }catch(NullPointerException nullPointerException){
             
         }
@@ -163,9 +163,9 @@ public class KDimensionalTree extends Tree{
         if(kDimensionalNode == null) return;
         kDimensionalNode.setPos(xPos, yPos);
         updatePositionNode(kDimensionalNode.getLeftChild(), xPos 
-                - (60*countChild(kDimensionalNode.getRightChild())), yPos + 100);
+                - (60*countChild(kDimensionalNode.getRightChild()) - 1), yPos + 100);
         updatePositionNode(kDimensionalNode.getRightChild(), xPos
-                + (60*countChild(kDimensionalNode.getLeftChild())), yPos + 100);
+                + (60*countChild(kDimensionalNode.getLeftChild()) - 1), yPos + 100);
     }
     
     private int countChild(KDimensionalNode kDimensionalNode){

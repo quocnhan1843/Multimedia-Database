@@ -488,7 +488,7 @@ public class DocumentsManagement extends javax.swing.JFrame {
             }
             tableDocuments.revalidate();
         } catch (Exception ex) {
-                ex.printStackTrace();
+                //ex.printStackTrace();
                 model.getDataVector().removeAllElements();
                 tableDocuments.revalidate();
         }
