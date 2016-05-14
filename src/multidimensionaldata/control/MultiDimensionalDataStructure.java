@@ -38,7 +38,7 @@ public class MultiDimensionalDataStructure extends JPanel{
     
     private static final long serialVersionUID = 1L;
     private JPanel  centerPanel, rightPanel;
-    private static PaintTop topPanel;
+    private static TopPanel topPanel;
     private ControlTreePanel controll;
     private JLabel labelZoom;
     private ViewPaint viewPaint;
@@ -78,7 +78,7 @@ public class MultiDimensionalDataStructure extends JPanel{
         
         viewPaint = new ViewPaint(tree);
         centerPanel = new JPanel();
-        topPanel = new PaintTop(tree);
+        topPanel = new TopPanel(tree);
         rightPanel = new JPanel();
         controll = new ControlTreePanel(tree,centerPanel);
         

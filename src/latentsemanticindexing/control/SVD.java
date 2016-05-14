@@ -9,6 +9,6 @@ package latentsemanticindexing.control;
  *
  * @author quocn
  */
-public class SVD {
+public class SVD extends NoName{
     
 }

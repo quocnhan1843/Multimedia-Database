@@ -25,11 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class MultiDimensionalDataStructureUI extends javax.swing.JFrame{
+public class MultiDimensionalDataStructureActivity extends javax.swing.JFrame{
 
     public static int lang = 1;
     private MultiDimensionalDataStructure multiDimensionalDataStructure;
-    public MultiDimensionalDataStructureUI() {
+    public MultiDimensionalDataStructureActivity() {
         initComponents();
         setSizeMainUI();
     }
@@ -52,9 +52,9 @@ public class MultiDimensionalDataStructureUI extends javax.swing.JFrame{
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getItem().equals("English")){
-                    MultiDimensionalDataStructureUI.lang = 1;
+                    MultiDimensionalDataStructureActivity.lang = 1;
                 }else{
-                    MultiDimensionalDataStructureUI.lang = 2;
+                    MultiDimensionalDataStructureActivity.lang = 2;
                 }
                 changeLang();
             }
@@ -79,7 +79,7 @@ public class MultiDimensionalDataStructureUI extends javax.swing.JFrame{
         } catch (ParseException | UnsupportedLookAndFeelException ex) {
         }
         java.awt.EventQueue.invokeLater(() -> {
-            MultiDimensionalDataStructureUI mainUI = new MultiDimensionalDataStructureUI();
+            MultiDimensionalDataStructureActivity mainUI = new MultiDimensionalDataStructureActivity();
             mainUI.setVisible(true);
        });
     }

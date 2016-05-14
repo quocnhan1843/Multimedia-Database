@@ -43,7 +43,7 @@ public class Dictionary{
             stringVietnamese = str2;
         }
         public String getString(){
-            if(MultiDimensionalDataStructureUI.getLang() == 1) return stringEnglish;
+            if(MultiDimensionalDataStructureActivity.getLang() == 1) return stringEnglish;
             return stringVietnamese;
         }
     }
@@ -72,7 +72,7 @@ public class Dictionary{
             stringVietnamese = str2;
         }
         public String getString(){
-            if(MultiDimensionalDataStructureUI.getLang() == 1) return stringEnglish;
+            if(MultiDimensionalDataStructureActivity.getLang() == 1) return stringEnglish;
             return stringVietnamese;
         }
     }
@@ -87,7 +87,7 @@ public class Dictionary{
             stringVietnamese = str2;
         }
         public String getString(){
-            if(MultiDimensionalDataStructureUI.getLang() == 1) return stringEnglish;
+            if(MultiDimensionalDataStructureActivity.getLang() == 1) return stringEnglish;
             return stringVietnamese;
         }
     }

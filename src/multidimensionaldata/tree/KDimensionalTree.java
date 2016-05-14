@@ -130,8 +130,8 @@ public class KDimensionalTree extends Tree{
                 Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
-            if(this.root != null)
-                updatePositionNode(this.root,this.root.getxPos(), this.root.getyPos());
+//            if(this.root != null)
+//                updatePositionNode(this.root,this.root.getxPos(), this.root.getyPos());
         }catch(NullPointerException nullPointerException){
             
         }
@@ -152,8 +152,8 @@ public class KDimensionalTree extends Tree{
                 Process.addPointSwap(new Point2D(0, 0), new Point2D(1, 1));
             }
             removeNode(current, current.getLevel() % super.getNumOfDimension(), paint);
-            if(this.root != null)
-                updatePositionNode(this.root, this.root.getxPos(), this.root.getyPos());
+//            if(this.root != null)
+//                updatePositionNode(this.root, this.root.getxPos(), this.root.getyPos());
         }catch(NullPointerException nullPointerException){
             
         }
@@ -162,10 +162,14 @@ public class KDimensionalTree extends Tree{
     private void updatePositionNode(KDimensionalNode kDimensionalNode, int xPos, int yPos){
         if(kDimensionalNode == null) return;
         kDimensionalNode.setPos(xPos, yPos);
-        updatePositionNode(kDimensionalNode.getLeftChild(), xPos 
-                - (60*countChild(kDimensionalNode.getRightChild())), yPos + 100);
-        updatePositionNode(kDimensionalNode.getRightChild(), xPos
-                + (60*countChild(kDimensionalNode.getLeftChild())), yPos + 100);
+        if(kDimensionalNode.getLeftChild() != null){
+            updatePositionNode(kDimensionalNode.getLeftChild(), xPos - 60, yPos + 100);
+            updateNode(kDimensionalNode.getRightChild(), +60);
+        }
+        if(kDimensionalNode.getRightChild() != null){
+            updatePositionNode(kDimensionalNode.getRightChild(), xPos + 60, yPos + 100);
+            updateNode(kDimensionalNode.getLeftChild(), +60);
+        }
     }
     
     private int countChild(KDimensionalNode kDimensionalNode){

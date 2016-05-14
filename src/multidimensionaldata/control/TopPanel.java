@@ -9,14 +9,14 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import multidimensionaldata.tree.Tree;
 
-public class PaintTop extends JPanel implements Runnable{
+public class TopPanel extends JPanel implements Runnable{
     
     private Tree tree;
     
     private int x, y;
     private int w = 1300;
     private String s;
-    public PaintTop(Tree tr) {
+    public TopPanel(Tree tr) {
         tree = tr;
         s = tree.getName();
         this.x = 100;
@@ -37,6 +37,16 @@ public class PaintTop extends JPanel implements Runnable{
         
         this.w = MultiDimensionalDataStructure.getTopWidth();
         s = tree.getName();
+        
+        s = tree.getName();
+        if(s.equals(Dictionary.Words.NAME_KDIMENSIONALTREE.getString())){
+            s = Dictionary.Words.K_DIMENSIONNAL_TREE.getString();
+        }else if(s.equals(Dictionary.Words.NAME_POINTQUADTREE.getString())){
+            s = Dictionary.Words.POINT_QUADTREE.getString();
+        }else{
+            s = Dictionary.Words.MATRIX_QUADTREE.getString();
+        }
+        s = s.toUpperCase();
         
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;

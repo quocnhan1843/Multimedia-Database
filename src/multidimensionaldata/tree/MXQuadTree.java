@@ -374,7 +374,23 @@ public class MXQuadTree extends Tree{
     }
     
     private void deleteNode(MXQuadNode mXQuadNode, boolean isPaint){
+        if(mXQuadNode == null) return;
+        MXQuadNode mX = mXQuadNode.getParent();
         
+        if(mX == mXQuadNode) return;
+        
+        int p = positionChild(mXQuadNode.getPoint(), mX.getPoint());
+        
+        if(p == 1){
+            mX.setNodeNW(null);
+        }else if(p == 2){
+            mX.setNodeNE(null);
+        }else if(p == 3){
+             mX.setNodeSE(null);
+        }else{
+             mX.setNodeSW(null);
+        }
+        deleteNode(mX, isPaint);
     }
     
     private MXQuadNode searchLabel(MXQuadNode current, String stringLabel

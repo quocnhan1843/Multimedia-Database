@@ -10,6 +10,6 @@ package latentsemanticindexing.control;
  *
  * @author quocn
  */
-public class IF_IDF {
+public class IF_IDF extends NoName{
 
 }
