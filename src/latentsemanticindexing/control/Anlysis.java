@@ -14,12 +14,12 @@ import javax.swing.JPanel;
  *
  * @author quocn
  */
-public abstract class NoName extends JPanel{
+public abstract class Anlysis extends JPanel{
     
-    public NoName(){
+    public Anlysis(){
     }
     
-    public static NoName createPanel(String typeString){
+    public static Anlysis createPanel(String typeString){
         if(typeString.equals(Dictionary.TYPE.NORMAL.getString())){
             return new Frequency();
         }else if(typeString.equals(Dictionary.TYPE.IF_IDF.getString())){

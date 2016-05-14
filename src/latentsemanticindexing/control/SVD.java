@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author quocn
  */
-public class SVD extends NoName{
+public class SVD extends Anlysis{
 
     @Override
     public void loadTable(List<DataDocument> listIdDocument, List<DataTermWord> listIdTermWord, HashMap listWordQR, String databaseName) {

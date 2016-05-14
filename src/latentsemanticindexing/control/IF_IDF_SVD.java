@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author quocn
  */
-public class IF_IDF_SVD extends NoName{
+public class IF_IDF_SVD extends Anlysis{
 
     @Override
     public void loadTable(List<DataDocument> listIdDocument, List<DataTermWord> listIdTermWord, HashMap listWordQR, String databaseName) {

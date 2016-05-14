@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public class RemoveStopWord {
     
-    private static char[] listStopChar = {'\''};
+    private static char[] listStopChar = {'\'','-'};
     
     public static Vector getList(String string){        
         string = string.toLowerCase();

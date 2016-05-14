@@ -32,7 +32,7 @@ import javax.swing.table.TableColumn;
  *
  * @author quocn
  */
-public class Frequency extends NoName{
+public class Frequency extends Anlysis{
     
     private JTabbedPane tabbedPane;
     

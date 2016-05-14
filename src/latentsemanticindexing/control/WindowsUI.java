@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class WindowsUI extends JPanel{
     
     private ClassAnlysis topPanel;
-    private NoName centerPanel;
+    private Anlysis centerPanel;
     
     public WindowsUI(){
         init();
@@ -30,7 +30,7 @@ public class WindowsUI extends JPanel{
     
     private void init(){
         topPanel = new ClassAnlysis();
-        centerPanel = NoName.createPanel(topPanel.getType());
+        centerPanel = Anlysis.createPanel(topPanel.getType());
     }
     
     private void setLayout(){
@@ -47,7 +47,7 @@ public class WindowsUI extends JPanel{
         this.topPanel.getComboBox().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                centerPanel = (NoName) TableAnlysis.getWindows(topPanel.getComboBox().getSelectedItem().toString());
+                centerPanel = (Anlysis) TableAnlysis.getWindows(topPanel.getComboBox().getSelectedItem().toString());
             }
         });
     }
